@@ -1,0 +1,41 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Connexion{% endblock title %}
+
+{% block content %}
+<!-- <style>
+body {
+    background-image: url("/static/user/img/loginwall.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+}        
+</style> -->
+
+<!-- Masthead -->
+<header class="masthead text-white text-center" style='opacity: 0.8'>
+    <div class='content-section'>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group" style='color:rgb(172, 172, 190)'>
+                <legend class="border-bottom mb-4" >Connexion</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class= "form-group">
+                <input type="hidden" name="owner" value="{{ user.id }}">
+                <button class="btn btn-primary" type="submit">Connexion</button>
+                <small class="text-muted ml-2">
+                    <a href="#">Mot de passe oublié ?</a>
+                </small>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                pas encore inscrit ? <a class="ml-2" href="#">S'inscrire</a>
+            </small>
+        </div>
+    </div>
+</header>
+
+{% endblock %}

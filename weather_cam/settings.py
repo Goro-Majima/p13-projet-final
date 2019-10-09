@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'django_extensions',
     'debug_toolbar',
-
-    'map.apps.MapConfig',
+    'crispy_forms',
+    'user.apps.UserConfig',
+    'member.apps.MemberConfig'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'menu'
+LOGIN_URL = 'login'
