@@ -32,7 +32,7 @@ def menu(request):
             context = {
                 'club_list':club_list
             }
-            return redirect('menu', context)
+            return redirect('clubdata', context)
     else:
         form = ClubForm()
     return render(request, 'user/menu.html', {'form': form})
@@ -49,9 +49,12 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'user/register.html', {'form':form})
-    # return render(request, 'user/register.html')
 
 def results(request):
     message = "results page"
     return HttpResponse(message)
 
+@login_required
+def clubdata(request):
+    message = "club data page"
+    return HttpResponse(message)
