@@ -9,46 +9,37 @@
     <h3 class="display-4 text-center"> Club(s) géré(s) </h3>
     <hr class="bg-dark mb-4 w-25">
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
+    {% if user.is_authenticated %}
+        {% if club_list %}
+            {% for club in club_list %}
+            <div class="col-md-4">
+                <div class="card">
+                    <!-- <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap"> -->
                 <div class="card-block p-3">
-                    <h4 class="card-title">kickboxing</h4>
-                    <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                    <a href="#" class="btn btn-primary rounded-0 mb-2">Choisir</a>
+                    <h4 class="card-title">{{ club.club_name }}</h4>
+                    <p class="card-text">{{ club.city }}, {{ club.zip_code }}</p>
+                    <p class="card-text">Gérant: {{ club.owner.username }}</p>
+                    <a href="{% url 'clubdata' club_id=club.id %}" class="btn btn-primary rounded-0 mb-2">Choisir</a>
                 </div>
             </div>
         </div> 
-        <div class="col-md-4">
-            <div class="card">
-                <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
-                <div class="card-block p-3">
-                    <h4 class="card-title">kickboxing</h4>
-                    <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                    <a href="#" class="btn btn-primary rounded-0 mb-2">Choisir</a>
-                </div>
-            </div>
-        </div> 
-        <div class="col-md-4">
-            <div class="card">
-                <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
-                <div class="card-block p-3">
-                    <h4 class="card-title">kickboxing</h4>
-                    <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                    <a href="#" class="btn btn-primary rounded-0 mb-2">Choisir</a>
-                </div>
-            </div>
-        </div> 
+            {% endfor %}
+        {% else %}
+        <div class="text-center">
+            <h3 class="text-center mt-5">Aucun club géré</h3>
+        </div>
 
+        {% endif %}
+    {% endif %}
     </div>
     <hr class="bg-dark mb-6 w-150">
     <br>
     <h3 class="display-4 text-center"> Ajouter un nouveau club </h3>
     <hr class="bg-dark mb-4 w-25">
     <div class='content-section'>
-        <form method="POST">
+        <form class="form-style-9" method="POST">
             {% csrf_token %}
-            <fieldset class="form-group" style='color:rgb(172, 172, 190)'>
+            <fieldset class="form-group" style='color:rgb(28, 28, 32)'>
                 {{ form|crispy }}
             </fieldset>
             <div class= "form-group">
@@ -58,5 +49,4 @@
     </div>
 </div>
 <!-- Card -->
-
 {% endblock %}

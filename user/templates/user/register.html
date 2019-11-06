@@ -16,9 +16,9 @@ body {
 <!-- Masthead -->
 <header class="masthead text-white text-center" style='opacity: 0.8'>
     <div class='content-section'>
-        <form method="POST">
+        <form class="form-style-9" method="POST">
             {% csrf_token %}
-            <fieldset class="form-group" style='color:ghostwhite'>
+            <fieldset class="form-group" style='color:rgb(29, 29, 32)'>
                 <legend class="border-bottom mb-4" >Rejoins nous !</legend>
                 {{ form|crispy }}
             </fieldset>

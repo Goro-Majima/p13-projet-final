@@ -1,6 +1,6 @@
 import requests
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -24,18 +24,20 @@ def menu(request):
             club.save()
             name = form.cleaned_data.get('club_name')
             messages.success(request, f'Le club {name} est ajouté.')
-            clubs = Club.objects.filter(owner=request.user)
-            if clubs.count() > 0:
-                club_list = []
-            else:
-                club_list = clubs
-            context = {
-                'club_list':club_list
-            }
-            return redirect('clubdata', context)
+            return redirect('menu')
     else:
         form = ClubForm()
-    return render(request, 'user/menu.html', {'form': form})
+    clubs = Club.objects.filter(owner=request.user)
+    print(clubs.count())
+    if clubs.count() == 0:
+        club_list = []
+    else:
+        club_list = clubs
+    context = {
+        'club_list': club_list,
+        'form': form
+    }
+    return render(request, 'user/menu.html', context)
 
 def register(request):
     """ Check if the form is valid, create a user and save it to the database """
@@ -50,11 +52,14 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'user/register.html', {'form':form})
 
-def results(request):
-    message = "results page"
-    return HttpResponse(message)
+@login_required
+def clubhomepage(request):
+    return render(request, 'user/clubhomepage.html')
 
 @login_required
-def clubdata(request):
-    message = "club data page"
-    return HttpResponse(message)
+def clubdata(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    context = {
+        'club':club,
+    }
+    return render(request, 'user/clubdata.html', context)
