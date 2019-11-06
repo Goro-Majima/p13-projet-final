@@ -8,3 +8,6 @@ class Club(models.Model):
     city = models.CharField(max_length=100)  
     date = models.DateField(default=timezone.now)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.club_name}'

@@ -1,0 +1,22 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Données du club{% endblock title %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h3 class="display-4 text-center">{{ club.club_name}}</h3>
+    <div class='content-section'>
+        <form class="form-style-9" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group" style='color:rgb(11, 11, 12)'>
+                <legend class="border-bottom mb-4" >Ajoutez membre</legend>
+                {{ m_form|crispy }}
+            </fieldset>
+            <div class= "form-group">
+                <button class="btn btn-outline-info" type="submit">Ajouter</button>
+            </div>
+        </form>        
+    </div>
+    {% endif %}
+{% endblock %}

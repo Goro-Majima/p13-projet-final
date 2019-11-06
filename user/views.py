@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, ClubForm
+from .forms import UserRegisterForm, ClubForm, MemberRegisterForm
+# from member.forms import MemberRegisterForm
 
 from .models import Club
 
@@ -28,7 +29,6 @@ def menu(request):
     else:
         form = ClubForm()
     clubs = Club.objects.filter(owner=request.user)
-    print(clubs.count())
     if clubs.count() == 0:
         club_list = []
     else:
@@ -59,7 +59,15 @@ def clubhomepage(request):
 @login_required
 def clubdata(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
+    if request.method == 'POST':
+        m_form = MemberRegisterForm(request.POST)
+        if m_form.is_valid():
+            m_form.save()
+            messages.success(request, f'Un membre a été créé !')
+    else:
+        m_form = MemberRegisterForm()
     context = {
         'club':club,
+        'm_form': m_form,
     }
-    return render(request, 'user/clubdata.html', context)
+    return render(request, 'member/clubdata.html', context)
