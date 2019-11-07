@@ -4,8 +4,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, ClubForm, MemberRegisterForm
-# from member.forms import MemberRegisterForm
+from .forms import UserRegisterForm, ClubForm
+from member.models import Member
+from member.forms import MemberRegisterForm
 
 from .models import Club
 
@@ -64,10 +65,15 @@ def clubdata(request, club_id):
         if m_form.is_valid():
             m_form.save()
             messages.success(request, f'Un membre a été créé !')
+            m_form = MemberRegisterForm()
     else:
         m_form = MemberRegisterForm()
+    members = Member.objects.filter(club=club_id)
+    sorted_members = sorted(members, key=lambda member:member.payment)
     context = {
         'club':club,
         'm_form': m_form,
+        'members': members,
+        'sorted_members': sorted_members
     }
     return render(request, 'member/clubdata.html', context)
