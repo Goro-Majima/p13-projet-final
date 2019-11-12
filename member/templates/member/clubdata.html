@@ -6,9 +6,9 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h3 class="display-4 text-center">{{ club.club_name}}</h3>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom">
+    <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom">
     <p><button onclick="sortTablebyCertificate()">Trier par certificat</button></p>
-    <p><button onclick="sortTablebyPayment()">Trier par paiement</button></p>
+    <p><button onclick="sortTablebyPayment()">Trier par paiement</button></p> -->
 
 <!-- Table with panel -->
 <div class="card card-cascade narrower">
@@ -40,138 +40,15 @@
                         </div> 
                   </div>       
                 </div>
-                <!-- <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold text-primary ml-5">Add new form</h4>
-                    <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <input type="text" id="inputName" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="inputName">Name</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="inputPosition" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="inputPosition">Position</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="inputOfficeInput" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="inputOfficeInput">Office</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="inputAge" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="inputAge">Age</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="date" id="inputDate" class="form-control" placeholder="Select Date">
-                        <label data-error="wrong" data-success="right" for="inputDate"></label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="inputSalary" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="inputSalary">Salary</label>
-                    </div>
-        
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center buttonAddFormWrapper">
-                    <button class="btn btn-outline-primary btn-block buttonAdd" data-dismiss="modal">Add form
-                        <i class="fas fa-paper-plane-o ml-1"></i>
-                    </button>
-                    </div>
-                </div>
-                </div> -->
             </div>
-        
             <div class="text-center">
                 <a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter membre<i
                     class="fas fa-plus-square ml-1"></i></a>
             </div>
-<!--         
-            <div class="modal fade modalEditClass" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold text-secondary ml-5">Edit form</h4>
-                    <button type="button" class="close text-secondary" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body mx-3">
-                    <div class="md-form mb-5">
-                        <input type="text" id="formNameEdit" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="formNameEdit">Name</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="formPositionEdit" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="formPositionEdit">Position</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="formOfficeEdit" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="formOfficeEdit">Office</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="formAgeEdit" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="formAgeEdit">Age</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="formDateEdit" class="form-control datepicker">
-                        <label data-error="wrong" data-success="right" for="formDateEdit">Date</label>
-                    </div>
-        
-                    <div class="md-form mb-5">
-                        <input type="text" id="formSalaryEdit" class="form-control validate">
-                        <label data-error="wrong" data-success="right" for="formSalaryEdit">Salary</label>
-                    </div>
-        
-        
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center editInsideWrapper">
-                    <button class="btn btn-outline-secondary btn-block editInside" data-dismiss="modal">Edit
-                        form
-                        <i class="fas fa-paper-plane-o ml-1"></i>
-                    </button>
-                    </div>
-                </div>
-                </div>
-            </div> -->
-        
             <div class="text-center buttonEditWrapper">
                 <button class="btn btn-info btn-rounded btn-sm buttonEdit" data-toggle="modal" data-target="#modalEdit"
                 disabled>Editer<i class="fas fa-pencil-square-o ml-1"></i></a>
             </div>
-        
-            <!-- <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDelete"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold ml-5 text-danger">Supprimer</h4>
-                    <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body mx-3">
-                    <p class="text-center h4">Are you sure to delete selected row?</p>
-        
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center deleteButtonsWrapper">
-                    <button type="button" class="btn btn-danger btnYesClass" id="btnYes" data-dismiss="modal">Yes</button>
-                    <button type="button" class="btn btn-primary btnNoClass" id="btnNo" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-                </div>
-            </div> -->
         
             <div class="text-center">
                 <button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete"
@@ -181,47 +58,48 @@
         </div>
 
     </div>
-    <table id="myTable" class="table table-striped table-dark table-bordered table-hover table-sm ">
-        <thead>
+    <table id="myTable" class="table table-bordered table-hover table-sm ">
+        <thead class="thead-dark">
             <tr>
                 <th class="th-lg" scope="col">#</th>
-                <th class="th-lg" scope="col"><a>Nom<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>Prénom<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>DOB<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>adresse<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>email<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>certificat<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>paiement<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>club<i class="fas fa-sort ml-1"></i></a></th>
+                <th class="th-lg" scope="col"><a>Nom</a></th>
+                <th class="th-lg" scope="col"><a>Prénom</a></th>
+                <th class="th-lg" scope="col"><a>DOB</a></th>
+                <th class="th-lg" scope="col"><a>adresse</a></th>
+                <th class="th-lg" scope="col"><a>email</a></th>
+                <th class="th-lg" scope="col"><a>certificat</a></th>
+                <th class="th-lg" scope="col"><a>paiement</a></th>
+                <th class="th-lg" scope="col"><a>club</a></th>
             </tr>
         </thead>
         <tbody>
             {% for member in members %}            
-            <tr>
+            <tr class="table-light">
             <th scope="row">{{ forloop.revcounter }}</th>
             <td>{{member.last_name}}</td>
             <td>{{member.first_name}}</td>
             <td>{{member.birth}}</td>
             <td>{{member.street_adress}}</td>
             <td>{{member.email}}</td>
-            <td>{{member.certificate}}</td>
-            <td>{{member.payment}}</td>
-            <!-- <td><input type="checkbox" name="myTextEditBox" value="checked" /></td> -->
+            <!-- <td>{{member.certificate}}</td> -->
+            <!-- <td>{{member.payment}}</td> -->
+            <td><input type="checkbox" name="myTextEditBox" value="{{member.certificate}}" /></td>
+            <td><input type="checkbox" name="myTextEditBox" value="{{member.payment}}" /></td>
             <td>{{member.club}}</td>
             </tr>
             {% endfor %}
         </tbody>
         <tfoot>
-            <tr>
+            <tr class="thead-dark">
                 <th class="th-lg" scope="col">#</th>
-                <th class="th-lg" scope="col"><a>Nom<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>Prénom<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>DOB<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>adresse<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>email<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>certificat<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>paiement<i class="fas fa-sort ml-1"></i></a></th>
-                <th class="th-lg" scope="col"><a>club<i class="fas fa-sort ml-1"></i></a></th>
+                <th class="th-lg" scope="col"><a>Nom</a></th>
+                <th class="th-lg" scope="col"><a>Prénom</a></th>
+                <th class="th-lg" scope="col"><a>DOB</a></th>
+                <th class="th-lg" scope="col"><a>adresse</a></th>
+                <th class="th-lg" scope="col"><a>email</a></th>
+                <th class="th-lg" scope="col"><a>certificat</a></th>
+                <th class="th-lg" scope="col"><a>paiement</a></th>
+                <th class="th-lg" scope="col"><a>club</a></th>
             </tr>
         </tfoot>
     </table>
