@@ -11,6 +11,10 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
+        labels = {
+            'username':'Identifiant',
+            'password1':'Mot de passe'
+        }
         fields = ['username', 'email', 'password1', 'password2']
 
 class ClubForm(forms.ModelForm):
@@ -22,15 +26,12 @@ class ClubForm(forms.ModelForm):
         city = cleaned_data.get('city')
         if not name and not zip_code and not city:
             raise forms.ValidationError('Vous devez compléter tous les champs')
-
+    
     class Meta:
         model = Club
+        labels = {
+            'club_name':'Club',
+            'zip_code':'Code postal',
+            'city':'Ville'
+        }
         fields = ['club_name', 'zip_code', 'city']
-
-class MemberRegisterForm(forms.ModelForm):
-
-    class Meta:
-        model = Member
-        fields = ['last_name', 'first_name', 'birth', 'street_adress', 
-                'email', 'certificate', 'payment', 'club'
-                ]    

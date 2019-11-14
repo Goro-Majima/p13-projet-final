@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ClubForm
 from member.models import Member
-from member.forms import MemberRegisterForm
+from member.forms import MemberRegisterForm, UpdateMemberForm
 
 from .models import Club
 
@@ -81,7 +81,16 @@ def clubdata(request, club_id):
 @login_required
 def editpage(request, member_id):
     member = get_object_or_404(Member, pk=member_id)
+    if request.method == 'POST':
+        u_form = UpdateMemberForm(request.POST, instance=member)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, f'Mis à jour !')
+            redirect('homepage')
+    else:
+        u_form = UpdateMemberForm(instance=member)
     context = {
         'member':member,
+        'u_form': u_form,
     }
     return render(request, 'member/editpage.html', context)
