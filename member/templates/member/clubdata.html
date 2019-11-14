@@ -4,6 +4,9 @@
 {% load crispy_forms_tags %}
 {% block title %}Données du club{% endblock title %}
 {% block content %}
+<style type="text/css">
+    body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+</style>
     {% if user.is_authenticated %}
         <h3 class="display-4 text-center">{{ club.club_name}}</h3>
     <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom">
@@ -69,7 +72,6 @@
                 <th class="th-lg" scope="col"><a>email</a></th>
                 <th class="th-lg" scope="col"><a>certificat</a></th>
                 <th class="th-lg" scope="col"><a>paiement</a></th>
-                <th class="th-lg" scope="col"><a>club</a></th>
             </tr>
         </thead>
         <tbody>
@@ -81,11 +83,16 @@
             <td>{{member.birth}}</td>
             <td>{{member.street_adress}}</td>
             <td>{{member.email}}</td>
-            <!-- <td>{{member.certificate}}</td> -->
-            <!-- <td>{{member.payment}}</td> -->
-            <td><input type="checkbox" name="myTextEditBox" value="{{member.certificate}}" /></td>
-            <td><input type="checkbox" name="myTextEditBox" value="{{member.payment}}" /></td>
-            <td>{{member.club}}</td>
+            {% if member.certificate is True %}
+                <td><input type="checkbox" disabled name="myTextEditBox" checked /></td>
+            {% else %}
+                <td><input type="checkbox" disabled name="myTextEditBox"/></td>
+            {% endif %}
+            {% if member.payment is True %}
+                <td><input type="checkbox" disabled name="myTextEditBox" checked /></td>
+            {% else %}
+                <td><input type="checkbox" disabled name="myTextEditBox" /></td>
+            {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -99,7 +106,6 @@
                 <th class="th-lg" scope="col"><a>email</a></th>
                 <th class="th-lg" scope="col"><a>certificat</a></th>
                 <th class="th-lg" scope="col"><a>paiement</a></th>
-                <th class="th-lg" scope="col"><a>club</a></th>
             </tr>
         </tfoot>
     </table>

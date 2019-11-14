@@ -4,7 +4,9 @@
 {% load crispy_forms_tags %}
 {% block title %}Menu{% endblock title %}
 {% block content %}
-
+<style type="text/css">
+    body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+</style>
 <div class="container container mt-4 mb-5">
     <h3 class="display-4 text-center"> Club(s) géré(s) </h3>
     <hr class="bg-dark mb-4 w-25">
