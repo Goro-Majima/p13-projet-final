@@ -77,3 +77,11 @@ def clubdata(request, club_id):
         'sorted_members': sorted_members
     }
     return render(request, 'member/clubdata.html', context)
+
+@login_required
+def editpage(request, member_id):
+    member = get_object_or_404(Member, pk=member_id)
+    context = {
+        'member':member,
+    }
+    return render(request, 'member/editpage.html', context)

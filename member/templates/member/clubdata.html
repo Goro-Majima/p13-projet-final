@@ -4,113 +4,204 @@
 {% load crispy_forms_tags %}
 {% block title %}Données du club{% endblock title %}
 {% block content %}
+
 <style type="text/css">
     body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 </style>
     {% if user.is_authenticated %}
-        <h3 class="display-4 text-center">{{ club.club_name}}</h3>
-    <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom">
-    <p><button onclick="sortTablebyCertificate()">Trier par certificat</button></p>
-    <p><button onclick="sortTablebyPayment()">Trier par paiement</button></p> -->
-
-<!-- Table with panel -->
-<div class="card card-cascade narrower">
-    <div class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
-
-        <a href="" class="white-text mx-3">Membres 2019/2020</a>
-        <a href="" class="white-text mx-3">Nombre de licenciés: {{ members.count }}</a>
-        <div class="row d-flex justify-content-center modalWrapper">
-            <div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header text-center">
-                          <form class="form-style-9 " method="POST">
-                              {% csrf_token %}
-                              <fieldset class="form-group" style='color:rgb(11, 11, 12)'>
-                                  <div class="modal-header">
-                                      <legend class="border-bottom mb-4" >Ajoutez membre</legend>
-                                      <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                      </button>
-                                  </div>
-                                  {{ m_form|crispy }}
-                              </fieldset>
-                              <div class= "form-group">
-                                  <button class="btn btn-outline-info" type="submit">Ajouter</button>
-                              </div>
-                          </form> 
-                        </div> 
-                  </div>       
-                </div>
-            </div>
-            <div class="text-center">
-                <a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter membre<i
-                    class="fas fa-plus-square ml-1"></i></a>
-            </div>
-            <div class="text-center buttonEditWrapper">
-                <button class="btn btn-info btn-rounded btn-sm buttonEdit" data-toggle="modal" data-target="#modalEdit"
-                disabled>Editer<i class="fas fa-pencil-square-o ml-1"></i></a>
-            </div>
         
-            <div class="text-center">
-                <button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete"
-                disabled>Supprimer<i class="fas fa-times ml-1"></i></a>
-            </div>
-        </div>
-        </div>
-
-    </div>
-    <table id="myTable" class="table table-bordered table-hover table-sm ">
-        <thead class="thead-dark">
-            <tr>
-                <th class="th-lg" scope="col">#</th>
-                <th class="th-lg" scope="col"><a>Nom</a></th>
-                <th class="th-lg" scope="col"><a>Prénom</a></th>
-                <th class="th-lg" scope="col"><a>DOB</a></th>
-                <th class="th-lg" scope="col"><a>adresse</a></th>
-                <th class="th-lg" scope="col"><a>email</a></th>
-                <th class="th-lg" scope="col"><a>certificat</a></th>
-                <th class="th-lg" scope="col"><a>paiement</a></th>
-            </tr>
-        </thead>
-        <tbody>
+<h3 class="display-4 text-center">{{ club.club_name}}</h3>
+<!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom"><p><button onclick="sortTablebyCertificate()">Trier par certificat</button></p><p><button onclick="sortTablebyPayment()">Trier par paiement</button></p> -->
+<div class="card card-cascade narrower">
+	<div class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+		<a href="" class="white-text mx-3">Membres 2019/2020</a>
+		<a href="" class="white-text mx-3">Nombre de licenciés: {{ members.count }}</a>
+		<div class="row d-flex justify-content-center modalWrapper">
+			<div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
+                aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<form class="form-style-9 " method="POST">
+                              {% csrf_token %}
+                              
+								<fieldset class="form-group" style='color:rgb(11, 11, 12)'>
+									<div class="modal-header">
+										<legend class="border-bottom mb-4" >Ajoutez membre</legend>
+										<button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+                                  {{ m_form|crispy }}
+                              
+								</fieldset>
+								<div class= "form-group">
+									<button class="btn btn-outline-info" type="submit">Ajouter</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade modalEditClass" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h4 class="modal-title w-100 font-weight-bold text-secondary ml-5">Edit form</h4>
+							<button type="button" class="close text-secondary" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body mx-3">
+							<div class="md-form mb-5">
+								<input type="text" id="formNameEdit" class="form-control validate">
+									<label data-error="wrong" data-success="right" for="formNameEdit">Name</label>
+								</div>
+								<div class="md-form mb-5">
+									<input type="text" id="formPositionEdit" class="form-control validate">
+										<label data-error="wrong" data-success="right" for="formPositionEdit">Position</label>
+									</div>
+									<div class="md-form mb-5">
+										<input type="text" id="formOfficeEdit" class="form-control validate">
+											<label data-error="wrong" data-success="right" for="formOfficeEdit">Office</label>
+										</div>
+										<div class="md-form mb-5">
+											<input type="text" id="formAgeEdit" class="form-control validate">
+												<label data-error="wrong" data-success="right" for="formAgeEdit">Age</label>
+											</div>
+											<div class="md-form mb-5">
+												<input type="text" id="formDateEdit" class="form-control datepicker">
+													<label data-error="wrong" data-success="right" for="formDateEdit">Date</label>
+												</div>
+												<div class="md-form mb-5">
+													<input type="text" id="formSalaryEdit" class="form-control validate">
+														<label data-error="wrong" data-success="right" for="formSalaryEdit">Salary</label>
+													</div>
+												</div>
+												<div class="modal-footer d-flex justify-content-center editInsideWrapper">
+													<button class="btn btn-outline-secondary btn-block editInside" data-dismiss="modal">Edit form                        
+														<i class="fas fa-paper-plane-o ml-1"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="text-center">
+										<a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter membre<i
+                                            class="fas fa-plus-square ml-1"></i>
+										</a>
+									</div>
+									<div class="text-center buttonEditWrapper">
+										<button class="btn btn-info btn-rounded btn-sm buttonEdit" data-toggle="modal" data-target="#modalEdit"disable>Editer<i 
+                                            class="fas fa-pencil-square-o ml-1"></i>
+										</a>
+									</div>
+									<div class="text-center">
+										<button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete" disable>Supprimer
+											<i class="fas fa-times ml-1"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+							<table id="myTable" class="table table-bordered table-hover table-sm ">
+								<thead class="thead-dark">
+									<tr>
+										<th class="th-lg" scope="col">#</th>
+										<th class="th-lg" scope="col">
+											<a>Nom</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>Prénom</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>DOB</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>adresse</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>email</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>certificat</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>paiement</a>
+                                        </th>
+                                        <th class="th-lg" scope="col">
+											<a>Modifier</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
             {% for member in members %}            
-            <tr class="table-light">
-            <th scope="row">{{ forloop.revcounter }}</th>
-            <td>{{member.last_name}}</td>
-            <td>{{member.first_name}}</td>
-            <td>{{member.birth}}</td>
-            <td>{{member.street_adress}}</td>
-            <td>{{member.email}}</td>
+            
+									<tr class="table-light">
+										<th scope="row">{{ forloop.revcounter }}</th>
+										<td>{{member.last_name}}</td>
+										<td>{{member.first_name}}</td>
+										<td>{{member.birth}}</td>
+										<td>{{member.street_adress}}</td>
+										<td>{{member.email}}</td>
             {% if member.certificate is True %}
-                <td><input type="checkbox" disabled name="myTextEditBox" checked /></td>
+                
+										<td>
+											<input type="checkbox" disabled name="myTextEditBox" checked />
+										</td>
             {% else %}
-                <td><input type="checkbox" disabled name="myTextEditBox"/></td>
+                
+										<td>
+											<input type="checkbox" disabled name="myTextEditBox"/>
+										</td>
             {% endif %}
             {% if member.payment is True %}
-                <td><input type="checkbox" disabled name="myTextEditBox" checked /></td>
+                
+										<td>
+											<input type="checkbox" disabled name="myTextEditBox" checked />
+										</td>
             {% else %}
-                <td><input type="checkbox" disabled name="myTextEditBox" /></td>
+                
+										<td>
+											<input type="checkbox" disabled name="myTextEditBox" />
+										</td>
             {% endif %}
-            </tr>
+                                        <td>
+                                            <a href ="{% url 'editpage' member_id=member.id %}"><button class="btn btn-outline-info" type="button">Modifier</button></a>
+                                        </td>
+									</tr>
             {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr class="thead-dark">
-                <th class="th-lg" scope="col">#</th>
-                <th class="th-lg" scope="col"><a>Nom</a></th>
-                <th class="th-lg" scope="col"><a>Prénom</a></th>
-                <th class="th-lg" scope="col"><a>DOB</a></th>
-                <th class="th-lg" scope="col"><a>adresse</a></th>
-                <th class="th-lg" scope="col"><a>email</a></th>
-                <th class="th-lg" scope="col"><a>certificat</a></th>
-                <th class="th-lg" scope="col"><a>paiement</a></th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-
         
+								</tbody>
+								<tfoot>
+									<tr class="thead-dark">
+										<th class="th-lg" scope="col">#</th>
+										<th class="th-lg" scope="col">
+											<a>Nom</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>Prénom</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>DOB</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>adresse</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>email</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>certificat</a>
+										</th>
+										<th class="th-lg" scope="col">
+											<a>paiement</a>
+                                        </th>
+                                        <th class="th-lg" scope="col">
+											<a>Modifier</a>
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
     {% endif %}
 {% endblock %}
