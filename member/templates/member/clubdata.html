@@ -141,12 +141,12 @@
             {% if member.certificate is True %}
                 
 										<td>
-											<input type="checkbox" disabled name="myTextEditBox" checked />
+											<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox" checked />
 										</td>
             {% else %}
                 
 										<td>
-											<input type="checkbox" disabled name="myTextEditBox"/>
+											<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox"/>
 										</td>
             {% endif %}
             {% if member.payment is True %}
@@ -197,6 +197,7 @@
 									</tr>
 								</tfoot>
 							</table>
-						</div>
+                        </div>
+
     {% endif %}
 {% endblock %}
