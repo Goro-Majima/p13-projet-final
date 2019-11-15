@@ -69,24 +69,22 @@ def clubdata(request, club_id):
     else:
         m_form = MemberRegisterForm()
     members = Member.objects.filter(club=club_id)
-    sorted_members = sorted(members, key=lambda member:member.payment)
     context = {
         'club':club,
         'm_form': m_form,
         'members': members,
-        'sorted_members': sorted_members
     }
     return render(request, 'member/clubdata.html', context)
 
 @login_required
-def editpage(request, member_id):
+def editpage(request,club_id, member_id):
     member = get_object_or_404(Member, pk=member_id)
     if request.method == 'POST':
         u_form = UpdateMemberForm(request.POST, instance=member)
         if u_form.is_valid():
             u_form.save()
             messages.success(request, f'Mis à jour !')
-            redirect('homepage')
+            return redirect('clubdata', club_id)
     else:
         u_form = UpdateMemberForm(instance=member)
     context = {
@@ -94,3 +92,19 @@ def editpage(request, member_id):
         'u_form': u_form,
     }
     return render(request, 'member/editpage.html', context)
+
+@login_required
+def certificate_recall(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    list_members_without_certificate=[]
+    list_members_without_payment=[]
+    members_without_certificate = Member.objects.filter(club=club_id, certificate=False)
+    members_without_payment = Member.objects.filter(club=club_id, payment=False)
+    list_members_without_certificate = members_without_certificate
+    list_members_without_payment = members_without_payment
+    context = {
+        'club':club,
+        'list_members_without_certificate':list_members_without_certificate,
+        'list_members_without_payment':list_members_without_payment,
+    }
+    return render(request, 'member/certificate_recall.html', context)

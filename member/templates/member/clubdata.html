@@ -47,7 +47,12 @@
 										<a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter membre<i
                                             class="fas fa-plus-square ml-1"></i>
 										</a>
-									</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="{% url 'certificate_recall' club_id=club.id %}"><button class="btn btn-info btn-rounded btn-sm" type=button>Relance mails<i
+                                            class="fa fa-envelope-o"></i></button>
+                                        </a>
+                                    </div>
 									<div class="text-center">
 										<button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete" disable>Supprimer
 											<i class="fas fa-times ml-1"></i>
@@ -118,7 +123,7 @@
 										</td>
             {% endif %}
                                         <td>
-                                            <a href ="{% url 'editpage' member_id=member.id %}"><button class="btn btn-outline-info" type="button">Modifier</button></a>
+                                            <a href ="{% url 'editpage' club_id=club.id member_id=member.id %}"><button class="btn btn-outline-info" type="button">Modifier</button></a>
                                         </td>
 									</tr>
             {% endfor %}
