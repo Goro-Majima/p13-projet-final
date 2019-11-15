@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Modification membre{% endblock title %}
+{% block content %}
+<style type="text/css">
+    body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+</style>
+{% if user.is_authenticated %}
+        
+<h3 class="display-4 text-center">{{ club.club_name}}</h3>
+<div class="row">
+    
+    <div class="col-xs-6 col-sm-6">
+        <h2>Certificats médicaux manquants</h2>
+        <table id="myTable" class="table table-bordered table-hover table-sm "></table>
+            <thead class="thead-dark">
+                <tr>
+                    <th class="th-lg" scope="col">#</th>
+                    <th class="th-lg" scope="col">
+                        <a>Nom</a>
+                    </th>
+                    <th class="th-lg" scope="col">
+                        <a>Prénom</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member_without_certificate in list_members_without_certificate %}
+                    <tr class="table-light">
+                        <th scope="row">{{ forloop.revcounter }}</th>
+                            <td>{{member_without_certificate.last_name}}</td>
+							<td>{{member_without_certificate.email}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            {% for member_without_certificate in list_members_without_certificate %}
+                <li style='color:brown'>{{member_without_certificate.last_name}}, {{member_without_certificate.email}}</li>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div class="col-xs-6 col-sm-4">
+        <h2>Paiements manquants</h2>
+        {% for member_without_payment in list_members_without_payment %}
+            <li style='color:brown'>{{member_without_payment.last_name}}, {{member_without_payment.email}}</li>
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
