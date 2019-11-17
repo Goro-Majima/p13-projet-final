@@ -4,16 +4,10 @@
 {% load crispy_forms_tags %}
 {% block title %}Modification membre{% endblock title %}
 {% block content %}
-<h3 class="display-4 text-center"> Mis à jour membre </h3>
+<h3 class="display-4 text-center"> Les mails de relance sont envoyés ! </h3>
 <hr class="bg-dark mb-4 w-25">
-<div class='content-section'>
-    <form class="form-style-9" method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group" style='color:rgb(28, 28, 32)'>
-            {{ u_form|crispy }}
-        </fieldset>
+<div class="col-md-12 text-center">
         <div class= "form-group">
-            <button class="btn btn-primary" type="submit">Mettre à jour</button>
             <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-outline-info" type="button">Retour</button></a>
         </div>
     </form>

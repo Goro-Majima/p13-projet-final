@@ -2,6 +2,7 @@ import requests
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.core.mail import send_mail, send_mass_mail
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ClubForm
@@ -78,16 +79,18 @@ def clubdata(request, club_id):
 
 @login_required
 def editpage(request,club_id, member_id):
+    club = get_object_or_404(Club, pk=club_id)
     member = get_object_or_404(Member, pk=member_id)
     if request.method == 'POST':
         u_form = UpdateMemberForm(request.POST, instance=member)
         if u_form.is_valid():
             u_form.save()
-            messages.success(request, f'Mis à jour !')
+            messages.success(request, f'Membre mis à jour !')
             return redirect('clubdata', club_id)
     else:
         u_form = UpdateMemberForm(instance=member)
     context = {
+        'club':club,
         'member':member,
         'u_form': u_form,
     }
@@ -108,3 +111,15 @@ def certificate_recall(request, club_id):
         'list_members_without_payment':list_members_without_payment,
     }
     return render(request, 'member/certificate_recall.html', context)
+
+@login_required
+def mail_sent(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    mail_cm = ('Relance certifit médical', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
+    mail_payment = ('Relance paiement', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
+    send_mass_mail((mail_cm, mail_payment), fail_silently=False)
+    context = {
+        'club':club,
+    }
+    return render(request, 'member/mail_sent.html', context)
+

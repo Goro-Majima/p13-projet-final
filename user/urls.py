@@ -16,4 +16,5 @@ urlpatterns = [
     path('clubhomepage', views.clubhomepage, name='clubhomepage'),
     path('editpage/<club_id>/<member_id>', views.editpage, name='editpage'),
     path('certificate_recall/<club_id>', views.certificate_recall, name='certificate_recall'),
+    path('mail_sent/<club_id>', views.mail_sent, name='mail_sent'),
 ]
