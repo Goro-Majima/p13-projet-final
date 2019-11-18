@@ -1,6 +1,6 @@
 import requests
 import csv
-
+from pandas import DataFrame
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core.mail import send_mail, send_mass_mail
@@ -142,3 +142,54 @@ def mail_sent(request, club_id):
         }
     return render(request, 'member/mail_sent.html', context)
 
+# @login_required
+# def csv_completed(request, club_id):
+#     club = get_object_or_404(Club, pk=club_id)
+#     members = Member.objects.filter(club=club_id)
+#     with open('données_membres.csv', 'w', newline='') as f:
+#         fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
+#         thewriter = csv.DictWriter(f, fieldnames=fieldnames, delimiter='\t')
+
+#         thewriter.writeheader()
+#         for member in members:
+#             thewriter.writerow({'Nom': member.last_name, 'Prénom': member.first_name, 
+#             'Date de naissance': member.birth, 'Adresse': member.street_adress, 'Email': member.email, 'Certificat': member.certificate, 'Paiement': member.payment})
+#     context = {
+#         'club':club,
+#     }
+#     return render(request, 'member/csv_completed.html', context)
+
+@login_required
+def xls_completed(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    members = Member.objects.filter(club=club_id)
+    l_last_names = []
+    l_first_names = []
+    l_birth = []
+    l_street_adress = []
+    l_email = []
+    l_certificate = []
+    l_payment = []
+    for member in members:
+        l_last_names.append(member.last_name)
+        l_first_names.append(member.first_name)
+        l_birth.append(member.birth)
+        l_street_adress.append(member.street_adress)
+        l_email.append(member.email)
+        l_certificate.append(member.certificate)
+        l_payment.append(member.payment)
+    df = DataFrame({
+        'Nom': l_last_names, 
+        'Prénom': l_first_names, 
+        'Date de naissance': l_birth, 
+        'Adresse': l_street_adress,
+        'Email':l_email,
+        'Certificat': l_certificate,
+        'Paiement': l_payment
+        })
+
+    df.to_excel('données_club.xlsx', sheet_name='sheet1', index=False)
+    context = {
+        'club':club,
+    }
+    return render(request, 'member/xls_completed.html', context)

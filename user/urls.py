@@ -17,4 +17,5 @@ urlpatterns = [
     path('editpage/<club_id>/<member_id>', views.editpage, name='editpage'),
     path('certificate_recall/<club_id>', views.certificate_recall, name='certificate_recall'),
     path('mail_sent/<club_id>', views.mail_sent, name='mail_sent'),
+    path('xls_completed/<club_id>', views.xls_completed, name='xls_completed'),
 ]
