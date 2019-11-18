@@ -114,12 +114,14 @@ def certificate_recall(request, club_id):
 
 @login_required
 def mail_sent(request, club_id):
-    club = get_object_or_404(Club, pk=club_id)
-    mail_cm = ('Relance certifit médical', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
-    mail_payment = ('Relance paiement', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
-    send_mass_mail((mail_cm, mail_payment), fail_silently=False)
-    context = {
-        'club':club,
-    }
+    if request.method == 'GET':
+        content_mail = request.GET.get('message')
+        club = get_object_or_404(Club, pk=club_id)
+        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
+        mail_payment = ('Relance paiement', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
+        send_mass_mail((mail_cm, mail_payment), fail_silently=False)
+        context = {
+            'club':club,
+        }
     return render(request, 'member/mail_sent.html', context)
 

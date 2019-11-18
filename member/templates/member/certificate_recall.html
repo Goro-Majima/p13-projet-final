@@ -38,9 +38,9 @@
             {% for member_without_certificate in list_members_without_certificate %}
                 <li style='color:brown'>{{member_without_certificate.last_name}}, {{member_without_certificate.email}}</li>
             {% endfor %}
-            <div class= "form-group">
+            <!-- <div class= "form-group">
                 <a href ="{% url 'mail_sent' club_id=club.id %}"><button class="btn btn-primary" type="button">Relance</button></a>
-            </div>
+            </div> -->
             
         </table>
     </div>
@@ -50,12 +50,21 @@
         {% for member_without_payment in list_members_without_payment %}
             <li style='color:brown'>{{member_without_payment.last_name}}, {{member_without_payment.email}}</li>
         {% endfor %}
-        <div class= "form-group">
+        <!-- <div class= "form-group">
             <a href =""><button class="btn btn-primary" type="button">Relance</button></a>
-        </div>
+        </div> -->
     </div>
 </div>
 {% endif %}
+<form class="form-style-9" action="{% url 'mail_sent' club_id=club.id %}" method="GET" enctype="text/plain">
+    Message:<br>
+    <textarea type="text" name="message" rows="10" cols="30"></textarea>
+    <div class= "form-group">
+        
+    </div>
+    <input class="btn btn-primary" type="submit" value="Envoyer">
+    <input type="reset" value="Effacer">
+</form>
 <div class="col-md-10 text-center">
     <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-outline-info" type="button">Retour</button></a>
 </div>
