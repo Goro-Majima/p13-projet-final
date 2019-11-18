@@ -58,14 +58,22 @@
 {% endif %}
 <form class="form-style-9" action="{% url 'mail_sent' club_id=club.id %}" method="GET" enctype="text/plain">
     Message:<br>
-    <textarea type="text" name="message" rows="10" cols="30"></textarea>
-    <div class= "form-group">
-        
-    </div>
+    <textarea type="text" name="message" rows="12" cols="45">
+Madame, Monsieur,
+
+Pour valider votre inscription, veuillez-nous fournir le certificat médical ou la cotisation annuelle.
+
+Ne pas tenir compte de ce message si déjà envoyé.
+
+Amicalement,
+
+Votre club
+    </textarea>
+    </br>
     <input class="btn btn-primary" type="submit" value="Envoyer">
-    <input type="reset" value="Effacer">
+    <input type="reset" value="Mail type">
 </form>
 <div class="col-md-10 text-center">
-    <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-outline-info" type="button">Retour</button></a>
+    <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-dark" type="button">Retour</button></a>
 </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 import requests
+import csv
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -117,8 +118,24 @@ def mail_sent(request, club_id):
     if request.method == 'GET':
         content_mail = request.GET.get('message')
         club = get_object_or_404(Club, pk=club_id)
-        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
-        mail_payment = ('Relance paiement', 'test pour voir', 'lymickael91@gmail.com', ['lyremi89@gmail.com'])
+        list_members_without_certificate=[]
+        list_members_without_payment=[]
+        members_without_certificate = Member.objects.filter(club=club_id, certificate=False)
+        members_without_payment = Member.objects.filter(club=club_id, payment=False)
+        list_members_without_certificate = members_without_certificate
+        list_members_without_payment = members_without_payment
+        email_list_cm = []
+        email_list_pay = []
+        for member in list_members_without_certificate:
+            email_list_cm.append(member.email)
+        for member in list_members_without_payment:
+            email_list_pay.append(member.email)
+        # for member_pay in list_members_without_payment:
+        #     if member_pay.email not in email_list_cm:
+        #         email_list_pay.append(member_pay.email)
+        
+        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_cm
+        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_pay
         send_mass_mail((mail_cm, mail_payment), fail_silently=False)
         context = {
             'club':club,
