@@ -36,7 +36,7 @@
                 {% endfor %}
             </tbody>
             {% for member_without_certificate in list_members_without_certificate %}
-                <li style='color:brown'>{{member_without_certificate.last_name}}, {{member_without_certificate.email}}</li>
+                <li style='color:brown'>{{member_without_certificate.first_name}}  {{member_without_certificate.last_name}}, {{member_without_certificate.email}}</li>
             {% endfor %}
             <!-- <div class= "form-group">
                 <a href ="{% url 'mail_sent' club_id=club.id %}"><button class="btn btn-primary" type="button">Relance</button></a>
@@ -48,7 +48,7 @@
     <div class="col-xs-6 col-sm-4">
         <h2>Paiements manquants</h2>
         {% for member_without_payment in list_members_without_payment %}
-            <li style='color:brown'>{{member_without_payment.last_name}}, {{member_without_payment.email}}</li>
+            <li style='color:brown'>{{member_without_payment.first_name}}  {{member_without_payment.last_name}}, {{member_without_payment.email}}</li>
         {% endfor %}
         <!-- <div class= "form-group">
             <a href =""><button class="btn btn-primary" type="button">Relance</button></a>

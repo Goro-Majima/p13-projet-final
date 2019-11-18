@@ -134,8 +134,8 @@ def mail_sent(request, club_id):
         #     if member_pay.email not in email_list_cm:
         #         email_list_pay.append(member_pay.email)
         
-        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_cm
-        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_pay
+        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_cm
+        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_pay
         send_mass_mail((mail_cm, mail_payment), fail_silently=False)
         context = {
             'club':club,
