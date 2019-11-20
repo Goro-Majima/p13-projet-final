@@ -161,6 +161,7 @@ def mail_sent(request, club_id):
 
 @login_required
 def xls_completed(request, club_id):
+    """ create an excel file and send it to the final user's downloads file"""
     club = get_object_or_404(Club, pk=club_id)
     members = Member.objects.filter(club=club_id)
     l_last_names = []
@@ -187,8 +188,8 @@ def xls_completed(request, club_id):
         'Certificat': l_certificate,
         'Paiement': l_payment
         })
-
-    df.to_excel('données_club.xlsx', sheet_name='sheet1', index=False)
+    # try to send to user's desktop as a downloaded file
+    df.to_excel('C:/Users/jiomod/données_club.xlsx', sheet_name='sheet1', index=False)
     context = {
         'club':club,
     }

@@ -1,8 +1,8 @@
+import requests
 from django import forms
 from member.models import Member
-
+from user.models import Club
 class MemberRegisterForm(forms.ModelForm):
-
     class Meta:
         model = Member
         labels = {
@@ -18,7 +18,6 @@ class MemberRegisterForm(forms.ModelForm):
                 ]
 
 class UpdateMemberForm(forms.ModelForm):
-
     class Meta:
         model = Member
         labels = {
