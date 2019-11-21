@@ -1,10 +1,11 @@
+import datetime
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.test.client import Client
 from user.forms import UserRegisterForm, ClubForm
 from django.contrib.auth.models import User
-
-
+from member.forms import MemberRegisterForm, UpdateMemberForm
+from user.models import Club
 # Homepage
 class IndexPageTestCase(TestCase):
     """ Class Test that the function returns the home page with response 200 """
@@ -68,11 +69,11 @@ class LoginTestCase(TestCase):
 
 # Creation of a club
 class ClubCreationTestCase(TestCase):
-    """ Class that check that a club is created and displayed only by its owner"""
+    """ Class that check that a club is created and displayed only to its owner"""
     def setUp(self):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
         self.client.login(username='john', password='johnpassword')
-
+        
     def test_add_club(self):
         form_data = {
             "club_name":"Kbm",
@@ -93,6 +94,54 @@ class ClubCreationTestCase(TestCase):
         self.assertFalse(form.is_valid())
 
 # Creation of a member
+class CreationMemberTestCase(TestCase):
+    """Class that check that a member is created and displayed only to its owner""" 
+    def setUp(self):
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.client.login(username='john', password='johnpassword')
+        self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
+    
+    def test_member_is_created(self):
+        form_data = {
+            "last_name":"Benzema",
+            "first_name": "Karim",
+            "birth": datetime.date(1956,1,30),
+            "street_adress": '3 rue du veau',
+            "email": 'benzema@gmail.com',
+            "certificate": True,
+            "payment": False,
+            "club": self.club
+        }
+        form = MemberRegisterForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_member_is_not_created(self):
+        form_data = {
+            "last_name":"Benzema",
+            "first_name": "Karim",
+            "birth": datetime.date(1956,1,30),
+            "street_adress": '3 rue du veau',
+            "email": 'bom',
+            "certificate": True,
+            "payment": False,
+            "club": self.club
+        }
+        form = MemberRegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_page_clubdata_is_returned(self):
+        form = MemberRegisterForm()
+        form.is_valid = True
+        response = self.client.post(reverse('clubdata', args=(self.club.id,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_returns_clubdata_page(self):
+        response = self.client.post(reverse('clubdata', args=(self.club.id,)))
+        self.assertTemplateUsed(response, 'member/clubdata.html')
+
+    def test_page_clubdata_returns_404(self):
+        response = self.client.post(reverse('clubdata', args=(150,)))
+        self.assertEqual(response.status_code, 404)
 
 # Edition of member datas
 
