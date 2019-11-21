@@ -63,7 +63,7 @@ def clubhomepage(request):
 def clubdata(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
     if request.method == 'POST':
-        m_form = MemberRegisterForm(request.POST, initial={'club': club_id})
+        m_form = MemberRegisterForm(request.POST, initial={'club': club_id}) # initial set a default value for 'club' field
         print(m_form)
         if m_form.is_valid():
             m_form.save()
