@@ -56,10 +56,6 @@ def register(request):
     return render(request, 'user/register.html', {'form':form})
 
 @login_required
-def clubhomepage(request):
-    return render(request, 'user/clubhomepage.html')
-
-@login_required
 def clubdata(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
     if request.method == 'POST':

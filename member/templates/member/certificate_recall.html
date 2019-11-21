@@ -8,9 +8,11 @@
     body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 </style>
 {% if user.is_authenticated %}
-        
-<h3 class="display-4 text-center">{{ club.club_name}}</h3>
-<hr class="bg-dark mb-4 w-25">
+<div class="container">    
+    <h3 class="display-4 text-center">{{ club.club_name}}</h3>
+    <hr class="bg-dark mb-4 w-25">
+</br>
+</div>  
 <div class="row">
     
     <div class="col-xs-6 col-sm-5">
@@ -25,6 +27,9 @@
                     <th class="th-lg" scope="col">
                         <a>Prénom</a>
                     </th>
+                    <th class="th-lg" scope="col">
+                        <a>mail</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +37,7 @@
                     <tr class="table-light">
                         <th scope="row">{{ forloop.revcounter }}</th>
                             <td>{{member_without_certificate.last_name}}</td>
+                            <td>{{member_without_certificate.first_name}}</td>
 							<td>{{member_without_certificate.email}}</td>
                     </tr>
                 {% endfor %}
@@ -51,6 +57,9 @@
                     <th class="th-lg" scope="col">
                         <a>Prénom</a>
                     </th>
+                    <th class="th-lg" scope="col">
+                        <a>mail</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +67,7 @@
                     <tr class="table-light">
                         <th scope="row">{{ forloop.revcounter }}</th>
                             <td>{{member_without_payment.last_name}}</td>
+                            <td>{{member_without_payment.first_name}}</td>
 							<td>{{member_without_payment.email}}</td>
                     </tr>
                 {% endfor %}
@@ -67,24 +77,28 @@
     </div>
 </div>
 {% endif %}
-<form class="form-style-9" action="{% url 'mail_sent' club_id=club.id %}" method="GET" enctype="text/plain">
-    Message:<br>
-    <textarea type="text" name="message" rows="12" cols="45">
-Madame, Monsieur,
+<section class="testimonials text-center bg-light">
+    <h4 class="display-4 text-center">Relancer les dossiers incomplets</h4>
+    <hr class="bg-dark mb-4 w-25">
+    <form class="form-style-9" action="{% url 'mail_sent' club_id=club.id %}" method="GET" enctype="text/plain">
+        Message:<br>
+        <textarea type="text" name="message" rows="12" cols="45">
+    Madame, Monsieur,
 
-Pour valider votre inscription, veuillez-nous fournir le certificat médical ou la cotisation annuelle.
+    Pour valider votre inscription, veuillez-nous fournir le certificat médical ou la cotisation annuelle.
 
-Ne pas tenir compte de ce message si déjà envoyé.
+    Ne pas tenir compte de ce message si déjà envoyé.
 
-Amicalement,
+    Amicalement,
 
-Votre club
-    </textarea>
-    </br>
-    <input class="btn btn-primary" type="submit" value="Envoyer">
-    <input type="reset" value="Mail type">
-</form>
-<div class="col-md-10 text-center">
-    <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-dark" type="button">Retour</button></a>
-</div>
+    Votre club
+        </textarea>
+        </br>
+        <input class="btn btn-primary" type="submit" value="Envoyer">
+        <input type="reset" value="Mail type">
+    </form>
+    <div class="col-md-12 text-center">
+        <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-dark" type="button">Retour</button></a>
+    </div>
+</section>
 {% endblock %}
