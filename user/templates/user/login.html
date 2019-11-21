@@ -26,7 +26,7 @@ body {
                 <input type="hidden" name="owner" value="{{ user.id }}">
                 <button class="btn btn-primary" type="submit">Connexion</button>
                 <small class="text-muted ml-2">
-                    <a href="#">Mot de passe oublié ?</a>
+                    <a href="{% url 'password_reset' %}">Mot de passe oublié ?</a>
                 </small>
             </div>
         </form>
