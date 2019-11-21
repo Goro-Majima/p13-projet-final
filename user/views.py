@@ -63,13 +63,14 @@ def clubhomepage(request):
 def clubdata(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
     if request.method == 'POST':
-        m_form = MemberRegisterForm(request.POST)
+        m_form = MemberRegisterForm(request.POST, initial={'club': club_id})
+        print(m_form)
         if m_form.is_valid():
             m_form.save()
             messages.success(request, f'Un membre a été créé !')
             m_form = MemberRegisterForm()
     else:
-        m_form = MemberRegisterForm()
+        m_form = MemberRegisterForm(initial={'club': club_id})
     members = Member.objects.filter(club=club_id)
     context = {
         'club':club,
@@ -134,8 +135,8 @@ def mail_sent(request, club_id):
         #     if member_pay.email not in email_list_cm:
         #         email_list_pay.append(member_pay.email)
         
-        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_cm
-        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_pay
+        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_cm
+        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['lyremi89@gmail.com']) # Add email_list_pay
         send_mass_mail((mail_cm, mail_payment), fail_silently=False)
         context = {
             'club':club,
@@ -189,7 +190,7 @@ def xls_completed(request, club_id):
         'Paiement': l_payment
         })
     # try to send to user's desktop as a downloaded file
-    df.to_excel('C:/Users/jiomod/données_club.xlsx', sheet_name='sheet1', index=False)
+    df.to_excel('C:/Users/Alex Tour/Desktop/PYTHON/projet openclassrooms/Projet13/données_club.xlsx', sheet_name='sheet1', index=False)
     context = {
         'club':club,
     }
