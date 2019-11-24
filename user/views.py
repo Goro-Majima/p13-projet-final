@@ -1,7 +1,9 @@
 import requests
 import csv
+import xlsxwriter
+import pandas as pd
 from pandas import DataFrame
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import HttpResponse
 from django.core.mail import send_mail, send_mass_mail
 from django.contrib import messages
@@ -11,6 +13,10 @@ from member.models import Member
 from member.forms import MemberRegisterForm, UpdateMemberForm
 
 from .models import Club
+try:
+    from io import BytesIO as IO # for modern python
+except ImportError:
+    from io import StringIO as IO # for legacy python
 
 def homepage(request):
     return render(request, 'user/index.html')
@@ -139,22 +145,26 @@ def mail_sent(request, club_id):
         }
     return render(request, 'member/mail_sent.html', context)
 
-# @login_required
-# def csv_completed(request, club_id):
-#     club = get_object_or_404(Club, pk=club_id)
-#     members = Member.objects.filter(club=club_id)
-#     with open('données_membres.csv', 'w', newline='') as f:
-#         fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
-#         thewriter = csv.DictWriter(f, fieldnames=fieldnames, delimiter='\t')
+@login_required
+def csv_completed(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    members = Member.objects.filter(club=club_id)
 
-#         thewriter.writeheader()
-#         for member in members:
-#             thewriter.writerow({'Nom': member.last_name, 'Prénom': member.first_name, 
-#             'Date de naissance': member.birth, 'Adresse': member.street_adress, 'Email': member.email, 'Certificat': member.certificate, 'Paiement': member.payment})
-#     context = {
-#         'club':club,
-#     }
-#     return render(request, 'member/csv_completed.html', context)
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=membres.csv'
+
+    with open('membres.csv', 'w', newline='') as f:
+        fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
+        thewriter = csv.DictWriter(f, fieldnames=fieldnames, delimiter='\t')
+
+        thewriter.writeheader()
+        for member in members:
+            thewriter.writerow({'Nom': member.last_name, 'Prénom': member.first_name, 
+            'Date de naissance': member.birth, 'Adresse': member.street_adress, 'Email': member.email, 'Certificat': member.certificate, 'Paiement': member.payment})
+    context = {
+        'club':club,
+    }
+    return response
 
 @login_required
 def xls_completed(request, club_id):
@@ -185,9 +195,19 @@ def xls_completed(request, club_id):
         'Certificat': l_certificate,
         'Paiement': l_payment
         })
+    # my "Excel" file, which is an in-memory output file (buffer) 
+    excel_file = IO()
+    xlwriter = pd.ExcelWriter(excel_file, engine='xlsxwriter')
     # try to send to user's desktop as a downloaded file
-    df.to_excel('C:/Users/Alex Tour/Desktop/PYTHON/projet openclassrooms/Projet13/données_club.xlsx', sheet_name='sheet1', index=False)
-    context = {
-        'club':club,
-    }
-    return render(request, 'member/xls_completed.html', context)
+    df.to_excel(xlwriter, sheet_name='sheet1', index=False)
+    xlwriter.save()
+    xlwriter.close()
+    # important step, rewind the buffer or when it is read() you'll get nothing
+    # but an error message when you try to open your zero length file in Excel
+    excel_file.seek(0)
+
+   # set the mime type so that the browser knows what to do with the file
+    response = HttpResponse(excel_file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=membres.xlsx'
+    
+    return response

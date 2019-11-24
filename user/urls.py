@@ -17,6 +17,7 @@ urlpatterns = [
     path('certificate_recall/<club_id>', views.certificate_recall, name='certificate_recall'),
     path('mail_sent/<club_id>', views.mail_sent, name='mail_sent'),
     path('xls_completed/<club_id>', views.xls_completed, name='xls_completed'),
+    path('csv_completed/<club_id>', views.csv_completed, name='csv_completed'),
     path('password-reset',
         auth_views.PasswordResetView.as_view(template_name='user/password_reset.html'), 
             name='password_reset'),
