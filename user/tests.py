@@ -6,6 +6,9 @@ from user.forms import UserRegisterForm, ClubForm
 from django.contrib.auth.models import User
 from member.forms import MemberRegisterForm, UpdateMemberForm
 from user.models import Club
+from django.core.mail import send_mail, send_mass_mail
+from django.core import mail
+
 # Homepage
 class IndexPageTestCase(TestCase):
     """ Class Test that the function returns the home page with response 200 """
@@ -148,6 +151,83 @@ class CreationMemberTestCase(TestCase):
 # Dump of the database into an excel file
 
 # mail function
-    
-      
+class testMassMaill(TestCase):
+    """class that test the mass mail function"""
+    def setUp(self):
+        """ method used to confirm that an email is sent """
+        mail_cm = ('Relance certificat médical', 'content_mail', 'lymickael91@gmail.com', ['lyremi89@gmail.com']) 
+        mail_payment = ('Relance paiement', 'content_mail2', 'lymickael91@gmail.com', ['lygoku@gmail.com'])
+        send_mass_mail((mail_cm, mail_payment), fail_silently=False)
 
+    def test_password_reset_page(self):
+            """test that to the Password Reset page that must return HTTP 200 and
+            the right template that shows the email form.
+            """
+            response = self.client.get(reverse('password_reset'))
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, 'user/password_reset.html')
+
+
+    def test_mail_is_sent(self):
+        """ Test that messages have been sent. """
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_mail_is_sent_with_the_right_subject(self):
+        """ Verify that the subject of the message is correct. """
+        self.assertEqual(mail.outbox[0].subject, 'Relance certificat médical')
+        self.assertEqual(mail.outbox[1].subject, 'Relance paiement')
+
+    def test_mail_is_sent_to_the_good_person(self):
+        """ Verify the destination """
+        self.assertEqual(mail.outbox[0].to, ['lyremi89@gmail.com'])
+        self.assertEqual(mail.outbox[1].to, ['lygoku@gmail.com'])
+
+# password reset
+class TestResetPassword(TestCase):
+    """ testing class used to confirm that an email is sent """
+    def setUp(self):
+        """ method used to confirm that an email is sent """
+        mail.send_mail(
+            'Réinitialisation du mot de passe sur 127.0.0.1:8000', 'Vous recevez \
+            ce message en réponse à votre demande de réinitialisation du mot\
+            de passe de votre compte sur 127.0.0.1:8000.',
+            'lymickael91@gmail.com', ['user@gmail.com'],
+            fail_silently=False,
+        )
+
+    def test_password_reset_page(self):
+            """test that to the Password Reset page that must return HTTP 200 and
+            the right template that shows the email form.
+            """
+            response = self.client.get(reverse('password_reset'))
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, 'user/password_reset.html')
+
+
+    def test_mail_is_sent(self):
+        """ Test that one message has been sent. """
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, ['user@gmail.com'])
+
+    def test_mail_is_sent_with_the_right_subject(self):
+        """ Verify that the subject of the message is correct. """
+        self.assertEqual(mail.outbox[0].subject, 'Réinitialisation du mot de passe sur 127.0.0.1:8000')
+
+    def test_mail_is_sent_with_right_email(self):
+        """ Check that a mail the user is redirected after recognized email"""
+        response = self.client.post(reverse('password_reset'), {'email':'lymickael91@gmail.com'})
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/password-reset/done')
+
+    def test_password_is_reset(self):
+        """ check that the new password page is ok """
+        response = self.client.post(reverse('password_reset_confirm', args={'uidb64':'MTA', 'token':'5af-f27d40734f5bc8ba3c9a'}))
+        self.assertEqual(response.status_code, 200)
+        response2 = self.client.post(reverse('password_reset_confirm', args={'uidb64':'MTA', 'token':'5af-f27d40734f5bc8ba3c9a'}), data={'new_password1':'Testing321', 'new_password2':'Testing321'})
+        self.assertEqual(response2.status_code, 200)
+
+    def test_password_not_complete(self):
+        """ check result when password is incomplete """
+        response = self.client.post(reverse('password_reset_confirm', args={'uidb64':'MTA', 'token':'5af-f27d40734f5bc8ba3c9a'}), data={'new_password1':'Testing321', 'new_password2':'Abdcdfdfd321'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user/password_reset_confirm.html')
