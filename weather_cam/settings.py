@@ -26,10 +26,11 @@ SECRET_KEY = 'v%4$w@7fuh2nbt!*z0f&)g07&6_fb0e*7)85ae7iw0uh%+0e1g'
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
+    ALLOWED_HOSTS = ['sporganizer.herokuapp.com']
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['sporganizer.herokuapp.com']
+
 
 
 # Application definition
@@ -59,7 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'weather_cam.urls'
