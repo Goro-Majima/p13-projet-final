@@ -9,8 +9,6 @@ branches:
      only:
         - staging
 
-env: DJANGO_SETTINGS_MODULE="weather_cam.settings.travis"
-
 services:
         - postgresql
 
