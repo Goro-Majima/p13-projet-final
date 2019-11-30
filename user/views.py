@@ -137,8 +137,8 @@ def mail_sent(request, club_id):
         #     if member_pay.email not in email_list_cm:
         #         email_list_pay.append(member_pay.email)
         
-        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', email_list_cm) # Add email_list_cm
-        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', email_list_cm) # Add email_list_pay
+        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['marilyne586@gmail.com']) # Add email_list_cm
+        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['marilyne586@gmail.com']) # Add email_list_pay
         send_mass_mail((mail_cm, mail_payment), fail_silently=False)
         context = {
             'club':club,
@@ -153,14 +153,13 @@ def csv_completed(request, club_id):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=membres.csv'
 
-    with open('membres.csv', 'w', newline='') as f:
-        fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
-        thewriter = csv.DictWriter(f, fieldnames=fieldnames, delimiter='\t')
+    fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
+    thewriter = csv.DictWriter(response, fieldnames=fieldnames, delimiter=' ')
 
-        thewriter.writeheader()
-        for member in members:
-            thewriter.writerow({'Nom': member.last_name, 'Prénom': member.first_name, 
-            'Date de naissance': member.birth, 'Adresse': member.street_adress, 'Email': member.email, 'Certificat': member.certificate, 'Paiement': member.payment})
+    thewriter.writeheader()
+    for member in members:
+        thewriter.writerow({'Nom': member.last_name, 'Prénom': member.first_name, 
+        'Date de naissance': member.birth, 'Adresse': member.street_adress, 'Email': member.email, 'Certificat': member.certificate, 'Paiement': member.payment})
     context = {
         'club':club,
     }
