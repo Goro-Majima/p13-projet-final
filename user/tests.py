@@ -3,8 +3,9 @@ from django.test import TestCase
 from django.urls import reverse, resolve
 from django.test.client import Client
 from user.forms import UserRegisterForm, ClubForm
-from django.contrib.auth.models import User
 from member.forms import MemberRegisterForm, UpdateMemberForm
+from django.contrib.auth.models import User
+from member.models import Member
 from user.models import Club
 from django.core.mail import send_mail, send_mass_mail
 from django.core import mail
@@ -104,25 +105,25 @@ class CreationMemberTestCase(TestCase):
         self.client.login(username='john', password='johnpassword')
         self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
     
-    # def test_member_is_created(self):
-    #     form_data = {
-    #         "last_name":"Benzema",
-    #         "first_name": "Karim",
-    #         "birth": datetime.date(1956,1,30),
-    #         "street_adress": '3 rue du veau',
-    #         "email": 'benzema@gmail.com',
-    #         "certificate": True,
-    #         "payment": False,
-    #         "club": self.club
-    #     }
-    #     form = MemberRegisterForm(data=form_data)
-    #     self.assertTrue(form.is_valid())
+    def test_member_is_created(self):
+        form_data = {
+            "last_name":"Ly",
+            "first_name": "Mickael",
+            "birth": '1956-01-01',
+            "street_adress": '3 rue du veau',
+            "email": 'benzema@gmail.com',
+            "certificate": True,
+            "payment": False,
+            "club": self.club
+        }
+        form = MemberRegisterForm(data=form_data)
+        self.assertTrue(form.is_valid())
 
     def test_member_is_not_created(self):
         form_data = {
-            "last_name":"Benzema",
-            "first_name": "Karim",
-            "birth": datetime.date(1956,1,30),
+            "last_name":"Ly",
+            "first_name": "Mickael",
+            "birth": '1956-01-01',
             "street_adress": '3 rue du veau',
             "email": 'bom',
             "certificate": True,
@@ -147,6 +148,29 @@ class CreationMemberTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
 # Edition of member datas
+
+# testing delete member
+class DeleteMemberTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
+        self.member1 = Member.objects.create(
+            last_name="Ly",
+            first_name= "Mickael",
+            birth=  '1956-01-01',
+            street_adress= '3 rue du veau',
+            email= 'bom',
+            certificate= True,
+            payment= False,
+            club= self.club
+        )
+        member_count = Member.objects.count()
+        self.assertEqual(member_count, 1)
+    
+    def test_delete_member(self):
+        Member.objects.get(pk=self.member1.id).delete()
+        member_count = Member.objects.count()
+        self.assertEqual(member_count, 0)
 
 # Dump of the database into an excel file
 

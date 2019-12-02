@@ -53,11 +53,6 @@
                                             class="fa fa-envelope-o"></i></button>
                                         </a>
                                     </div>
-									<div class="text-center">
-										<button class="btn btn-danger btn-sm btn-rounded buttonDelete" data-toggle="modal" disabled data-target="#modalDelete" disable>Supprimer
-											<i class="fas fa-times ml-1"></i>
-										</a>
-									</div>
 								</div>
 							</div>
 							<div class="text-center">
@@ -95,6 +90,9 @@
                                         <th class="th-lg" scope="col">
 											<a>Modifier</a>
 										</th>
+										<th class="th-lg" scope="col">
+											<a>Supprimer</a>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -131,6 +129,9 @@
             {% endif %}
                                         <td>
                                             <a href ="{% url 'editpage' club_id=club.id member_id=member.id %}"><button class="btn btn-outline-info" type="button">Modifier</button></a>
+										</td>
+										<td>
+                                            <a href ="{% url 'delete_member' club_id=club.id member_id=member.id %}"><button class="btn btn-danger" type="button">Supprimer</button></a>
                                         </td>
 									</tr>
             {% endfor %}
@@ -161,6 +162,9 @@
 											<a>paiement</a>
                                         </th>
                                         <th class="th-lg" scope="col">
+											<a>Modifier</a>
+										</th>
+										<th class="th-lg" scope="col">
 											<a>Modifier</a>
 										</th>
 									</tr>

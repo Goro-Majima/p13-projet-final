@@ -101,6 +101,18 @@ def editpage(request,club_id, member_id):
     return render(request, 'member/editpage.html', context)
 
 @login_required
+def delete_member(request,club_id, member_id):
+
+    club = get_object_or_404(Club, pk=club_id)
+    member = get_object_or_404(Member, pk=member_id)
+    Member.objects.get(pk=member_id).delete()
+    context = {
+        'club':club,
+        'member':member,
+    }
+    return render(request, 'member/delete_member.html', context)
+
+@login_required
 def certificate_recall(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
     list_members_without_certificate=[]
@@ -154,7 +166,7 @@ def csv_completed(request, club_id):
     response['Content-Disposition'] = 'attachment; filename=membres.csv'
 
     fieldnames = ['Nom', 'Prénom','Date de naissance', 'Adresse', 'Email', 'Certificat', 'Paiement']
-    thewriter = csv.DictWriter(response, fieldnames=fieldnames, delimiter=' ')
+    thewriter = csv.DictWriter(response, fieldnames=fieldnames, delimiter='-')
 
     thewriter.writeheader()
     for member in members:
