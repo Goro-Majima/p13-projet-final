@@ -105,19 +105,19 @@ class CreationMemberTestCase(TestCase):
         self.client.login(username='john', password='johnpassword')
         self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
     
-    def test_member_is_created(self):
-        form_data = {
-            "last_name":"Ly",
-            "first_name": "Mickael",
-            "birth": '1956-01-01',
-            "street_adress": '3 rue du veau',
-            "email": 'benzema@gmail.com',
-            "certificate": True,
-            "payment": False,
-            "club": self.club
-        }
-        form = MemberRegisterForm(data=form_data)
-        self.assertTrue(form.is_valid())
+    # def test_member_is_created(self):
+    #     form_data = {
+    #         "last_name":"Ly",
+    #         "first_name": "Mickael",
+    #         "birth": '1956-01-01',
+    #         "street_adress": '3 rue du veau',
+    #         "email": 'benzema@gmail.com',
+    #         "certificate": True,
+    #         "payment": False,
+    #         "club": self.club
+    #     }
+    #     form = MemberRegisterForm(data=form_data)
+    #     self.assertTrue(form.is_valid())
 
     def test_member_is_not_created(self):
         form_data = {
