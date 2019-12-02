@@ -14,6 +14,7 @@ urlpatterns = [
     path('logout', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
     path('clubdata/<club_id>', views.clubdata, name='clubdata'),
     path('editpage/<club_id>/<member_id>', views.editpage, name='editpage'),
+    path('delete_member/<club_id>/<member_id>', views.delete_member, name='delete_member'),
     path('certificate_recall/<club_id>', views.certificate_recall, name='certificate_recall'),
     path('mail_sent/<club_id>', views.mail_sent, name='mail_sent'),
     path('xls_completed/<club_id>', views.xls_completed, name='xls_completed'),
