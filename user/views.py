@@ -1,6 +1,6 @@
 import requests
 import csv
-import xlsxwriter
+import xlsxwriter #write in excel format
 import pandas as pd
 from pandas import DataFrame
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
@@ -23,6 +23,10 @@ def homepage(request):
 
 def login(request):
     return render(request, 'user/login.html')
+
+def mentions(request):
+    """ return the mention page """
+    return render(request, 'user/mentions.html')
 
 @login_required
 def menu(request):
@@ -224,3 +228,30 @@ def xls_completed(request, club_id):
     response['Content-Disposition'] = 'attachment; filename=membres.xlsx'
     
     return response
+
+@login_required
+def upload_xls(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    # if request.method == 'POST':
+    #     new_members_file = request.FILES['myfile']
+    #     xl_file = pd.ExcelFile(new_members_file)
+    # else:
+    #     new_members_file = request.FILES['myfile']
+    context = {
+        'club':club,
+    }
+    return render(request, 'member/upload_xls.html', context)
+
+@login_required
+def reader_xls(request, club_id):
+    club = get_object_or_404(Club, pk=club_id)
+    if request.method == 'POST':
+        new_members_file = request.FILES['myfile']
+        print('ok')
+    else:
+        new_members_file = request.FILES['myfile']
+        print('ok')
+    context = {
+        'club':club,
+    }
+    # return render(request, 'member/upload_xls_completed.html', context)

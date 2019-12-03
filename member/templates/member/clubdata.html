@@ -56,10 +56,15 @@
 								</div>
 							</div>
 							<div class="text-center">
+							{% if members.count == 0 %}
+								<a href="{% url 'upload_xls' club_id=club.id %}"><button class="btn btn-success" type=button>Import XLS</button>
+								</a>
+							{% else %}							
 								<a href="{% url 'xls_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format XLS</button>
 								</a>
 								<a href="{% url 'csv_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format CSV</button>
-								</a>
+								</a>							
+							{% endif %}
 							</div>
 							<div class="table-responsive">
 							<table id="myTable" class="table table-bordered table-hover table-sm">

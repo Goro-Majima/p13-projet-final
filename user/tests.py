@@ -226,8 +226,6 @@ class DeleteMemberTestCase(TestCase):
         member_count = Member.objects.count()
         self.assertEqual(member_count, 0)
 
-# Dump of the database into an excel file
-
 # mail function
 class testMassMaill(TestCase):
     """class that test the mass mail function"""
@@ -309,3 +307,7 @@ class TestResetPassword(TestCase):
         response = self.client.post(reverse('password_reset_confirm', args={'uidb64':'MTA', 'token':'5af-f27d40734f5bc8ba3c9a'}), data={'new_password1':'Testing321', 'new_password2':'Abdcdfdfd321'})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/password_reset_confirm.html')
+
+# Dump of the database into an excel file
+class TestdataExtractionTestcase(TestCase):
+    pass
