@@ -103,32 +103,33 @@ class CreationMemberTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
         self.client.login(username='john', password='johnpassword')
-        self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
-    
-    # def test_member_is_created(self):
-    #     form_data = {
-    #         "last_name":"Ly",
-    #         "first_name": "Mickael",
-    #         "birth": '1956-01-01',
-    #         "street_adress": '3 rue du veau',
-    #         "email": 'benzema@gmail.com',
-    #         "certificate": True,
-    #         "payment": False,
-    #         "club": self.club
-    #     }
-    #     form = MemberRegisterForm(data=form_data)
-    #     self.assertTrue(form.is_valid())
+        self.club = Club.objects.create(club_name='KBM sport', zip_code='77144', city='evry', owner= self.user)
 
-    def test_member_is_not_created(self):
+    def test_member_is_created(self):
+
+        self.club_pk = Club.objects.get(id=1).pk
         form_data = {
             "last_name":"Ly",
             "first_name": "Mickael",
             "birth": '1956-01-01',
             "street_adress": '3 rue du veau',
+            "email": 'benzema@gmail.com',
+            "certificate": True,
+            "payment": False,
+        }
+        form = MemberRegisterForm(data=form_data)
+        print(form)
+        self.assertTrue(form.is_valid())
+
+    def test_member_is_not_created(self):
+        form_data = {
+            "last_name":"Ly",
+            "first_name": "Marc",
+            "birth": '1990-01-01',
+            "street_adress": '15 allée papin',
             "email": 'bom',
             "certificate": True,
             "payment": False,
-            "club": self.club
         }
         form = MemberRegisterForm(data=form_data)
         self.assertFalse(form.is_valid())
@@ -136,11 +137,11 @@ class CreationMemberTestCase(TestCase):
     def test_page_clubdata_is_returned(self):
         form = MemberRegisterForm()
         form.is_valid = True
-        response = self.client.post(reverse('clubdata', args=(self.club.id,)))
+        response = self.client.get(reverse('clubdata', args=(self.club.id,)))
         self.assertEqual(response.status_code, 200)
 
     def test_view_returns_clubdata_page(self):
-        response = self.client.post(reverse('clubdata', args=(self.club.id,)))
+        response = self.client.get(reverse('clubdata', args=(self.club.id,)))
         self.assertTemplateUsed(response, 'member/clubdata.html')
 
     def test_page_clubdata_returns_404(self):
@@ -148,6 +149,59 @@ class CreationMemberTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
 # Edition of member datas
+class EditMemberTestcase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
+        self.member1 = Member.objects.create(
+            last_name="Ly",
+            first_name= "Mickael",
+            birth=  '1956-01-01',
+            street_adress= '3 rue du veau',
+            email= 'bom@gmail.com',
+            certificate= True,
+            payment= False,
+            club=self.club
+        )
+    
+    def test_edit_member(self):
+        form_data = {
+            "last_name":"Ly",
+            "first_name": "Marc",
+            "birth": '1990-01-01',
+            "street_adress": '15 allée papin',
+            "email": 'bom@gmail.com',
+            "certificate": True,
+            "payment": False,
+        }
+        form = UpdateMemberForm(data=form_data)
+        self.assertTrue(form.is_valid())
+    
+    def test_not_editing_member_because_of_wrong_email(self):
+        form_data = {
+            "last_name":"Ly",
+            "first_name": "Marc",
+            "birth": '1990-01-01',
+            "street_adress": '15 allée papin',
+            "email": 'gmail.com',
+            "certificate": True,
+            "payment": False,
+        }
+        form = UpdateMemberForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+        def test_not_editing_member_because_of_wrong_birthdate(self):
+            form_data = {
+                "last_name":"Ly",
+                "first_name": "Marc",
+                "birth": 'dfsfdsdf1',
+                "street_adress": '15 allée papin',
+                "email": 'bom@gmail.com',
+                "certificate": True,
+                "payment": False,
+            }
+            form = UpdateMemberForm(data=form_data)
+            self.assertFalse(form.is_valid())
 
 # testing delete member
 class DeleteMemberTestCase(TestCase):
@@ -159,10 +213,10 @@ class DeleteMemberTestCase(TestCase):
             first_name= "Mickael",
             birth=  '1956-01-01',
             street_adress= '3 rue du veau',
-            email= 'bom',
+            email= 'bom@gmail.com',
             certificate= True,
             payment= False,
-            club= self.club
+            club=self.club
         )
         member_count = Member.objects.count()
         self.assertEqual(member_count, 1)
