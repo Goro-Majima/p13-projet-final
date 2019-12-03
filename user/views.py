@@ -68,7 +68,9 @@ def clubdata(request, club_id):
         m_form = MemberRegisterForm(request.POST, initial={'club': club_id}) # initial set a default value for 'club' field
         print(m_form)
         if m_form.is_valid():
-            m_form.save()
+            new_member = m_form.save(commit=False) # Fill the field 'club' before commit
+            new_member.club = club 
+            new_member.save()
             messages.success(request, f'Un membre a été créé !')
             m_form = MemberRegisterForm()
     else:
