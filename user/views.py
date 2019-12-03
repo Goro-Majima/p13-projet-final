@@ -3,7 +3,6 @@ import csv
 import xlsxwriter #write in excel format
 import pandas as pd
 from pandas import DataFrame
-from tablib import Dataset
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import HttpResponse
 from django.core.mail import send_mail, send_mass_mail
