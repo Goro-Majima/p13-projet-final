@@ -155,10 +155,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get('EMAIL_USER') #env var
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS') # env var
 EMAIL_HOST_USER ='projetfinal13@gmail.com'
 EMAIL_HOST_PASSWORD = 'Testing321'
+# EMAIL_HOST_USER = os.environ.get('EMAIL_USER') #env var
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS') # env var
 
 if os.environ.get('ENV') == 'PRODUCTION':
 
@@ -177,16 +177,16 @@ if os.environ.get('ENV') == 'PRODUCTION':
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'projetfinal13@gmail.com'
-    EMAIL_HOST_PASSWORD = 'Testing321'
-
     # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    # EMAIL_HOST = 'smtp.mailgun.org'
+    # EMAIL_HOST = 'smtp.gmail.com'
     # EMAIL_PORT = 587
     # EMAIL_USE_TLS = True
-    # EMAIL_HOST_USER = 'postmaster@sandboxbeab0a7ea0074d99a171e41ebe692d30.mailgun.org'
-    # EMAIL_HOST_PASSWORD = '902defb9ee4b255160bbb533793bb667-f7910792-58d01781'
+    # EMAIL_HOST_USER = 'projetfinal13@gmail.com'
+    # EMAIL_HOST_PASSWORD = 'Testing321'
+
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.environ['MAILGUN_SMTP_SERVER']
+    EMAIL_PORT = os.environ['MAILGUN_SMTP_PORT']
+    EMAIL_HOST_USER = os.environ['MAILGUN_SMTP_LOGIN']
+    EMAIL_HOST_PASSWORD = os.environ['MAILGUN_SMTP_PASSWORD']
+    EMAIL_USE_TLS = True
