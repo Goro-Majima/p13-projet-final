@@ -233,7 +233,9 @@ def upload_xls(request, club_id):
         # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
         excel_file = request.FILES['myfile']
         wb = openpyxl.load_workbook(excel_file)
-        print(excel_file.name)
+        print(wb)
+        messages.success(request, f'Fichier importé avec succès !')
+        return redirect('clubdata', club_id)
     else:
         excel_file = UploadFileForm()
     context = {
