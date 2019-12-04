@@ -185,3 +185,8 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # EMAIL_HOST_PASSWORD = 'Testing321'
 
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.mailgun.org'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'postmaster@sandboxbeab0a7ea0074d99a171e41ebe692d30.mailgun.org'
+    EMAIL_HOST_PASSWORD = '902defb9ee4b255160bbb533793bb667-f7910792-58d01781'
