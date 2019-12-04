@@ -150,13 +150,9 @@ def mail_sent(request, club_id):
         for member in list_members_without_certificate:
             email_list_cm.append(member.email)
         for member in list_members_without_payment:
-            email_list_pay.append(member.email)
-        # for member_pay in list_members_without_payment:
-        #     if member_pay.email not in email_list_cm:
-        #         email_list_pay.append(member_pay.email)
-        
-        mail_cm = ('Relance certificat médical', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_cm
-        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', ['marilyne.lam586@gmail.com']) # Add email_list_pay
+            email_list_pay.append(member.email)        
+        mail_cm = ('Relance certificat médical', content_mail, 'mickael@sporganizer.herokuapp.com', [email_list_cm]) # Add email_list_cm
+        mail_payment = ('Relance paiement', content_mail, 'lymickael91@gmail.com', [email_list_pay]) # Add email_list_pay
         send_mass_mail((mail_cm, mail_payment), fail_silently=False)
         context = {
             'club':club,
