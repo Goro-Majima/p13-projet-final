@@ -1,6 +1,7 @@
 import requests
 import csv
 import xlsxwriter #write in excel format
+import openpyxl
 import pandas as pd
 from pandas import DataFrame
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
@@ -10,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ClubForm
 from member.models import Member
-from member.forms import MemberRegisterForm, UpdateMemberForm
+from member.forms import MemberRegisterForm, UpdateMemberForm, UploadFileForm
 
 from .models import Club
 try:
@@ -228,26 +229,16 @@ def xls_completed(request, club_id):
 @login_required
 def upload_xls(request, club_id):
     club = get_object_or_404(Club, pk=club_id)
-    # if request.method == 'POST':
-    #     new_members_file = request.FILES['myfile']
-    #     xl_file = pd.ExcelFile(new_members_file)
-    # else:
-    #     new_members_file = request.FILES['myfile']
+    if request.method == 'POST':
+        # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
+        excel_file = request.FILES['myfile']
+        wb = openpyxl.load_workbook(excel_file)
+        print(wb)
+        messages.success(request, f'Fichier importé avec succès !')
+        return redirect('clubdata', club_id)
+    else:
+        excel_file = UploadFileForm()
     context = {
         'club':club,
     }
     return render(request, 'member/upload_xls.html', context)
-
-@login_required
-def reader_xls(request, club_id):
-    club = get_object_or_404(Club, pk=club_id)
-    if request.method == 'POST':
-        new_members_file = request.FILES['myfile']
-        print('ok')
-    else:
-        new_members_file = request.FILES['myfile']
-        print('ok')
-    context = {
-        'club':club,
-    }
-    # return render(request, 'member/upload_xls_completed.html', context)

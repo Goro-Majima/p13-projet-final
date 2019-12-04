@@ -40,3 +40,7 @@ class UpdateMemberForm(forms.ModelForm):
         fields = ['last_name', 'first_name', 'birth', 'street_adress', 
                 'email', 'certificate', 'payment'
                 ]
+
+class UploadFileForm(forms.Form):
+    name = forms.CharField(max_length=50)
+    file = forms.FileField()
