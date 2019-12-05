@@ -233,25 +233,33 @@ def upload_xls(request, club_id):
     """ Get an excel file, read and parse datas according to the column attributes"""
     club = get_object_or_404(Club, pk=club_id)
     if request.method == 'POST':
-        # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
-        excel_file = request.FILES['myfile']
-        df = pd.read_excel(excel_file)
-        for index, row in df.iterrows(): #Read the file row by row with the attribute iterrows()
-            # print(row['Nom'], row['Prénom'], row['Date de naissance'], row['Adresse'], row['Email'], row['Certificat'], row['Paiement']) Check that rows are parsed correctly
-            member = Member.objects.create(
-                last_name = row['Nom'],
-                first_name = row['Prénom'],
-                birth = row['Date de naissance'],           #One row = one member with the column name
-                street_adress = row['Adresse'],
-                email = row['Email'],
-                certificate = row['Certificat'],
-                payment = row['Paiement'],
-                club = club
-            )
-        messages.success(request, f'Fichier importé avec succès !')
-        return redirect('clubdata', club_id)
+        if not 'myfile' in request.FILES:
+            messages.warning(request, f'Aucun fichier chargé !')
+        else:
+            excel_file = request.FILES['myfile']
+            try:
+                df = pd.read_excel(excel_file)
+                try:
+                    for index, row in df.iterrows(): #Read the file row by row with the attribute iterrows()
+                        # print(row['Nom'], row['Prénom'], row['Date de naissance'], row['Adresse'], row['Email'], row['Certificat'], row['Paiement']) Check that rows are parsed correctly
+                        member = Member.objects.create(
+                            last_name = row['Nom'],
+                            first_name = row['Prénom'],
+                            birth = row['Date de naissance'],           #One row = one member with the column name
+                            street_adress = row['Adresse'],
+                            email = row['Email'],
+                            certificate = row['Certificat'],
+                            payment = row['Paiement'],
+                            club = club
+                        )
+                    messages.success(request, f'Fichier importé avec succès !')
+                    return redirect('clubdata', club_id)
+                except:
+                    messages.warning(request, f'Veuillez ajuster les champs: Nom, Prénom, Date de naissance, Adresse, Email, Certificat, Paiement')           
+            except:
+                messages.warning(request, f'Format Xlsx requis !')
     else:
-        excel_file = UploadFileForm()
+        messages.warning(request, f'Format Xlsx requis !')
     context = {
         'club':club,
     }
