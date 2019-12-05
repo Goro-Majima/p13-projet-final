@@ -233,7 +233,6 @@ def upload_xls(request, club_id):
         # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
         excel_file = request.FILES['myfile']
         df = pd.read_excel(excel_file)
-        print(df)
         for index, row in df.iterrows(): #Read the file row by row with the attribute iterrows()
             # print(row['Nom'], row['Prénom'], row['Date de naissance'], row['Adresse'], row['Email'], row['Certificat'], row['Paiement']) Check that rows are parsed correctly
             member = Member.objects.create(
