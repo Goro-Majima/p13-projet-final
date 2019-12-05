@@ -2,6 +2,7 @@ import requests
 import csv
 import xlsxwriter #write in excel format
 import openpyxl
+import xlrd
 import pandas as pd
 from pandas import DataFrame
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
