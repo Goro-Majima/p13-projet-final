@@ -4,27 +4,28 @@
 {% load crispy_forms_tags %}
 {% block title %}Mentions légales{% endblock title %}
 {% block content %}
-
-<div class="container my-auto">
-    <h2 class="text-center mt-0" style='color:ghostwhite'>Mentions légales</h2>
-    <hr class="divider my-4">          
-    <div class="row">
-        <div class="col-lg-12 col-md-12 text-center box" style='color:ghostwhite'>         
-            <p>Hébergement: Heroku Cloud Application Platform, https://www.heroku.com </p>
-            <p>Template: startbootstrap.com </p>
-            <p>Database: plugin datatable.net </p>
-            <p>Application dévelopée par Mickael Ly</p>
-        </div>            
-    </div>
-</div>
-
-<div class="col-md-12 text-center">
-        <div class= "form-group">
-            <a href ="{% url 'homepage' %}"><button class="btn btn-outline-info" type="button">Retour</button></a>
+<header class="masthead text-white text-center">
+    <div class="container my-auto">
+        <hr class="divider my-4">          
+        <div class="row">
+            <div class="col-lg-12 col-md-12 text-center box" style='color:ghostwhite'> 
+                <h2 class="text-center mt-0">Mentions légales</h2>    
+                </br>
+                <p>Hébergement: Heroku Cloud Application Platform, https://www.heroku.com </p>
+                <p>Template: startbootstrap.com </p>
+                <p>Database: plugin datatable.net </p>
+                <p>Application dévelopée par Mickael Ly</p>
+            </div>            
         </div>
-    </form>
-</div>
+    </div>
 
+    <div class="col-md-12 text-center">
+            <div class= "form-group">
+                <a href ="{% url 'homepage' %}"><button class="btn btn-outline-info" type="button">Retour</button></a>
+            </div>
+        </form>
+    </div>
+</header>
 <style>
     .box {
         background-color: black;

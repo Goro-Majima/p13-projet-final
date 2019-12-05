@@ -9,7 +9,7 @@
 </style>
 {% if user.is_authenticated %}
 <div class="container">    
-    <h3 class="display-4 text-center">{{ club.club_name}}</h3>
+    <h3 class="display-4 text-center font-weight-bold">{{ club.club_name}}</h3>
     <hr class="bg-dark mb-4 w-25">
 </br>
 </div>  
@@ -78,7 +78,7 @@
 </div>
 {% endif %}
 <section class="testimonials text-center bg-light">
-    <h4 class="display-4 text-center">Relancer les dossiers incomplets</h4>
+    <h4 class="display-4 text-center font-weight-bold">Relancer les dossiers incomplets</h4>
     <hr class="bg-dark mb-4 w-25">
     <form class="form-style-9" action="{% url 'mail_sent' club_id=club.id %}" method="GET" enctype="text/plain">
         Message:<br>

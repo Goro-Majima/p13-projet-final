@@ -8,7 +8,7 @@
     body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 </style>
 <div class="container container mt-4 mb-5">
-    <h3 class="display-4 text-center"> Club(s) géré(s) </h3>
+    <h3 class="display-4 text-center font-weight-bold"> Clubs gérés </h3>
     <hr class="bg-dark mb-4 w-25">
     <div class="row">
     {% if user.is_authenticated %}
@@ -29,7 +29,7 @@
             {% endfor %}
         {% else %}
         <div class="text-center">
-            <h3 class="text-center mt-5">Aucun club géré</h3>
+            <h3 class="text-center mt-5 font-weight-bold">Aucun club géré</h3>
         </div>
 
         {% endif %}
@@ -37,7 +37,7 @@
     </div>
     <hr class="bg-dark mb-6 w-150">
     <br>
-    <h3 class="display-4 text-center"> Ajouter un nouveau club </h3>
+    <h3 class="display-4 text-center font-weight-bold"> Ajouter un nouveau club </h3>
     <hr class="bg-dark mb-4 w-25">
     <div class='content-section'>
         <form class="form-style-9" method="POST">

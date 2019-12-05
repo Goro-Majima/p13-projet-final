@@ -137,6 +137,7 @@ def certificate_recall(request, club_id):
 
 @login_required
 def mail_sent(request, club_id):
+    """ Get mails of members who did not provide their document yet and send a reminder """
     if request.method == 'GET':
         content_mail = request.GET.get('message')
         club = get_object_or_404(Club, pk=club_id)
@@ -162,6 +163,7 @@ def mail_sent(request, club_id):
 
 @login_required
 def csv_completed(request, club_id):
+    """create csv file and send it to the final user's downloads file"""
     club = get_object_or_404(Club, pk=club_id)
     members = Member.objects.filter(club=club_id)
 
@@ -228,6 +230,7 @@ def xls_completed(request, club_id):
 
 @login_required
 def upload_xls(request, club_id):
+    """ Get an excel file, read and parse datas according to the column attributes"""
     club = get_object_or_404(Club, pk=club_id)
     if request.method == 'POST':
         # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
