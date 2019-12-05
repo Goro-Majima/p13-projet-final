@@ -232,8 +232,20 @@ def upload_xls(request, club_id):
     if request.method == 'POST':
         # excel_file = UploadFileForm(request.POST, request.FILES['myfile'])
         excel_file = request.FILES['myfile']
-        wb = openpyxl.load_workbook(excel_file)
-        print(wb)
+        df = pd.read_excel(excel_file)
+        print(df)
+        for index, row in df.iterrows(): #Read the file row by row with the attribute iterrows()
+            # print(row['Nom'], row['Prénom'], row['Date de naissance'], row['Adresse'], row['Email'], row['Certificat'], row['Paiement']) Check that rows are parsed correctly
+            member = Member.objects.create(
+                last_name = row['Nom'],
+                first_name = row['Prénom'],
+                birth = row['Date de naissance'],           #One row = one member with the column name
+                street_adress = row['Adresse'],
+                email = row['Email'],
+                certificate = row['Certificat'],
+                payment = row['Paiement'],
+                club = club
+            )
         messages.success(request, f'Fichier importé avec succès !')
         return redirect('clubdata', club_id)
     else:
