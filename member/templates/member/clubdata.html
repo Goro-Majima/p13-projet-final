@@ -6,36 +6,42 @@
 {% block content %}
 
 <style type="text/css">
-    body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+	body {
+		background: rgb(194, 229, 240) !important;
+	}
+
+	/* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 </style>
-    {% if user.is_authenticated %}
-        
+{% if user.is_authenticated %}
+
 <h3 class="display-4 text-center font-weight-bold">{{ club.club_name}}</h3>
 <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par nom"><p><button onclick="sortTablebyCertificate()">Trier par certificat</button></p><p><button onclick="sortTablebyPayment()">Trier par paiement</button></p> -->
 <div class="card card-cascade narrower">
-	<div class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+	<div
+		class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
 		<a href="" class="white-text mx-3">Membres 2019/2020</a>
 		<a href="" class="white-text mx-3">Nombre de licenciés: {{ members.count }}</a>
 		<div class="row d-flex justify-content-center modalWrapper">
 			<div class="modal fade addNewInputs" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAdd"
-                aria-hidden="true">
+				aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header text-center">
 							<form class="form-style-9 " method="POST">
-                              {% csrf_token %}
-                              
+								{% csrf_token %}
+
 								<fieldset class="form-group" style='color:rgb(11, 11, 12)'>
 									<div class="modal-header">
-										<legend class="border-bottom mb-4" >Ajoutez membre</legend>
-										<button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
+										<legend class="border-bottom mb-4">Ajoutez membre</legend>
+										<button type="button" class="close text-primary" data-dismiss="modal"
+											aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
-                                  {{ m_form|crispy }}
-                              
+									{{ m_form|crispy }}
+
 								</fieldset>
-								<div class= "form-group">
+								<div class="form-group">
 									<button class="btn btn-outline-info" type="submit">Ajouter</button>
 								</div>
 							</form>
@@ -43,140 +49,145 @@
 					</div>
 				</div>
 			</div>
-									<div class="text-center">
-										<a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter membre<i
-                                            class="fas fa-plus-square ml-1"></i>
-										</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a href="{% url 'certificate_recall' club_id=club.id %}"><button class="btn btn-info btn-rounded btn-sm" type=button>Relance mails<i
-                                            class="fa fa-envelope-o"></i></button>
-                                        </a>
-                                    </div>
-								</div>
-							</div>
-							<div class="text-center">
-							{% if members.count == 0 %}
-								<a href="{% url 'upload_xls' club_id=club.id %}"><button class="btn btn-success" type=button>Import XLS</button>
-								</a>
-							{% else %}							
-								<a href="{% url 'xls_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format XLS</button>
-								</a>
-								<a href="{% url 'csv_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format CSV</button>
-								</a>							
-							{% endif %}
-							</div>
-							<div class="table-responsive">
-							<table id="myTable" class="table table-bordered table-hover table-sm">
-								<thead class="thead-dark">
-									<tr>
-										<th class="th-lg" scope="col">#</th>
-										<th class="th-lg" scope="col">
-											<a>Nom</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>Prénom</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>DOB</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>adresse</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>email</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>certificat</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>paiement</a>
-                                        </th>
-                                        <th class="th-lg" scope="col">
-											<a>Modifier</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>Supprimer</a>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-            {% for member in members %}            
-            
-									<tr class="table-light">
-										<th scope="row">{{ forloop.revcounter }}</th>
-										<td>{{member.last_name}}</td>
-										<td>{{member.first_name}}</td>
-										<td>{{member.birth|date:"d/m/Y"}}</td>
-										<td>{{member.street_adress}}</td>
-										<td>{{member.email}}</td>
-            {% if member.certificate is True %}
-                
-										<td>
-											<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox" checked />
-										</td>
-            {% else %}
-                
-										<td>
-											<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox"/>
-										</td>
-            {% endif %}
-            {% if member.payment is True %}
-                
-										<td>
-											<input type="checkbox" disabled name="myTextEditBox" checked />
-										</td>
-            {% else %}
-                
-										<td>
-											<input type="checkbox" disabled name="myTextEditBox" />
-										</td>
-            {% endif %}
-                                        <td>
-                                            <a href ="{% url 'editpage' club_id=club.id member_id=member.id %}"><button class="btn btn-outline-info" type="button">Modifier</button></a>
-										</td>
-										<td>
-                                            <a href ="{% url 'delete_member' club_id=club.id member_id=member.id %}"><button class="btn btn-danger" type="button">Supprimer</button></a>
-                                        </td>
-									</tr>
-            {% endfor %}
-        
-								</tbody>
-								<tfoot>
-									<tr class="thead-dark">
-										<th class="th-lg" scope="col">#</th>
-										<th class="th-lg" scope="col">
-											<a>Nom</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>Prénom</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>DOB</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>adresse</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>email</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>certificat</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>paiement</a>
-                                        </th>
-                                        <th class="th-lg" scope="col">
-											<a>Modifier</a>
-										</th>
-										<th class="th-lg" scope="col">
-											<a>Modifier</a>
-										</th>
-									</tr>
-								</tfoot>
-							</table>
-							</div>
-                        </div>
+			<div class="text-center">
+				<a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd">Ajouter
+					membre<i class="fas fa-plus-square ml-1"></i>
+				</a>
+			</div>
+			<div class="text-center">
+				<a href="{% url 'certificate_recall' club_id=club.id %}"><button class="btn btn-info btn-rounded btn-sm"
+						type=button>Relance mails<i class="fa fa-envelope-o"></i></button>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="text-center">
+		{% if members.count == 0 %}
+		<a href="{% url 'upload_xls' club_id=club.id %}"><button class="btn btn-success" type=button>Import XLS</button>
+		</a>
+		{% else %}
+		<a href="{% url 'xls_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format
+				XLS</button>
+		</a>
+		<a href="{% url 'csv_completed' club_id=club.id %}"><button class="btn btn-success" type=button>Format
+				CSV</button>
+		</a>
+		{% endif %}
+	</div>
+	<div class="table-responsive">
+		<table id="myTable" class="table table-bordered table-hover table-sm">
+			<thead class="thead-dark">
+				<tr>
+					<th class="th-lg" scope="col">#</th>
+					<th class="th-lg" scope="col">
+						<a>Nom</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Prénom</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>DOB</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>adresse</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>email</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>certificat</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>paiement</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Modifier</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Supprimer</a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for member in members %}
 
-    {% endif %}
+				<tr class="table-light">
+					<th scope="row">{{ forloop.revcounter }}</th>
+					<td>{{member.last_name}}</td>
+					<td>{{member.first_name}}</td>
+					<td>{{member.birth|date:"d/m/Y"}}</td>
+					<td>{{member.street_adress}}</td>
+					<td>{{member.email}}</td>
+					{% if member.certificate is True %}
+
+					<td>
+						<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox"
+							checked />
+					</td>
+					{% else %}
+
+					<td>
+						<input type="checkbox" disabled class="regular-checkbox big-checkbox" name="myTextEditBox" />
+					</td>
+					{% endif %}
+					{% if member.payment is True %}
+
+					<td>
+						<input type="checkbox" disabled name="myTextEditBox" checked />
+					</td>
+					{% else %}
+
+					<td>
+						<input type="checkbox" disabled name="myTextEditBox" />
+					</td>
+					{% endif %}
+					<td>
+						<a href="{% url 'editpage' club_id=club.id member_id=member.id %}"><button
+								class="btn btn-outline-info" type="button">Modifier</button></a>
+					</td>
+					<td>
+						<a href="{% url 'delete_member' club_id=club.id member_id=member.id %}"><button
+								class="btn btn-danger" type="button">Supprimer</button></a>
+					</td>
+				</tr>
+				{% endfor %}
+
+			</tbody>
+			<tfoot>
+				<tr class="thead-dark">
+					<th class="th-lg" scope="col">#</th>
+					<th class="th-lg" scope="col">
+						<a>Nom</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Prénom</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>DOB</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>adresse</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>email</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>certificat</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>paiement</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Modifier</a>
+					</th>
+					<th class="th-lg" scope="col">
+						<a>Modifier</a>
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+
+{% endif %}
 {% endblock %}
