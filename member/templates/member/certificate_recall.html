@@ -5,16 +5,20 @@
 {% block title %}relance des mails{% endblock title %}
 {% block content %}
 <style type="text/css">
-    body { background: rgb(194, 229, 240) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+    body {
+        background: rgb(194, 229, 240) !important;
+    }
+
+    /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 </style>
 {% if user.is_authenticated %}
-<div class="container">    
+<div class="container">
     <h3 class="display-4 text-center font-weight-bold">{{ club.club_name}}</h3>
     <hr class="bg-dark mb-4 w-25">
-</br>
-</div>  
+    </br>
+</div>
 <div class="row">
-    
+
     <div class="col-xs-6 col-sm-5">
         <h2>Certificats médicaux manquants</h2>
         <table id="myTable" class="table table-bordered table-hover table-sm ">
@@ -34,17 +38,17 @@
             </thead>
             <tbody>
                 {% for member_without_certificate in list_members_without_certificate %}
-                    <tr class="table-light">
-                        <th scope="row">{{ forloop.revcounter }}</th>
-                            <td>{{member_without_certificate.last_name}}</td>
-                            <td>{{member_without_certificate.first_name}}</td>
-							<td>{{member_without_certificate.email}}</td>
-                    </tr>
+                <tr class="table-light">
+                    <th scope="row">{{ forloop.revcounter }}</th>
+                    <td>{{member_without_certificate.last_name}}</td>
+                    <td>{{member_without_certificate.first_name}}</td>
+                    <td>{{member_without_certificate.email}}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
+
     <div class="col-xs-6 col-sm-5">
         <h2>Paiements manquants</h2>
         <table id="myTable2" class="table table-bordered table-hover table-sm ">
@@ -64,12 +68,12 @@
             </thead>
             <tbody>
                 {% for member_without_payment in list_members_without_payment %}
-                    <tr class="table-light">
-                        <th scope="row">{{ forloop.revcounter }}</th>
-                            <td>{{member_without_payment.last_name}}</td>
-                            <td>{{member_without_payment.first_name}}</td>
-							<td>{{member_without_payment.email}}</td>
-                    </tr>
+                <tr class="table-light">
+                    <th scope="row">{{ forloop.revcounter }}</th>
+                    <td>{{member_without_payment.last_name}}</td>
+                    <td>{{member_without_payment.first_name}}</td>
+                    <td>{{member_without_payment.email}}</td>
+                </tr>
                 {% endfor %}
             </tbody>
 
@@ -77,6 +81,7 @@
     </div>
 </div>
 {% endif %}
+{% if list_members_without_certificate or list_members_without_payment %}
 <section class="testimonials text-center bg-light">
     <h4 class="display-4 text-center font-weight-bold">Relancer les dossiers incomplets</h4>
     <hr class="bg-dark mb-4 w-25">
@@ -97,8 +102,9 @@ Votre club
         <input class="btn btn-primary" type="submit" value="Envoyer">
         <input type="reset" value="Mail type">
     </form>
-    <div class="col-md-12 text-center">
-        <a href ="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-dark" type="button">Retour</button></a>
-    </div>
 </section>
+{% endif %}
+<div class="col-md-12 text-center">
+    <a href="{% url 'clubdata' club_id=club.id %}"><button class="btn btn-dark" type="button">Retour</button></a>
+</div>
 {% endblock %}
