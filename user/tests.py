@@ -11,6 +11,7 @@ from user.models import Club
 from django.core.mail import send_mail, send_mass_mail
 from django.core import mail
 from pandas.util.testing import assert_frame_equal
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 # Homepage
 class IndexPageTestCase(TestCase):
@@ -312,11 +313,26 @@ class TestResetPassword(TestCase):
 
 # Dump of the database into an excel file
 class TestdataExtractionTestcase(TestCase):
-    # def setUp(self):
-
-    #     self.set_filename('membres.xlsx')
-
+    def setUp(self):
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.club = Club.objects.create(club_name='KBM', zip_code='77144', city='evry', owner= self.user)
+        self.member1 = Member.objects.create(
+            last_name="Ly",
+            first_name= "Mickael",
+            birth=  '1956-01-01',
+            street_adress= '3 rue du veau',
+            email= 'bom@gmail.com',
+            certificate= True,
+            payment= False,
+            club=self.club
+        
     def test_create_file(self):
+        """ check that panda's library is well imported"""
         df1 = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
         df2 = pd.DataFrame({'a': [1, 2], 'b': [3.0, 4.0]})
         assert_frame_equal(df1, df1)
+    
+    def test_csv_export(self):
+        club_id = self.club.id
+        response = self.client.get(reverse('clubdata', args=(club_id,)))
+        self.assertEqual(response.status_code, 302)
