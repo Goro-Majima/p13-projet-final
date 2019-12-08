@@ -1,4 +1,5 @@
 import datetime
+import pandas as pd
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.test.client import Client
@@ -9,6 +10,7 @@ from member.models import Member
 from user.models import Club
 from django.core.mail import send_mail, send_mass_mail
 from django.core import mail
+from pandas.util.testing import assert_frame_equal
 
 # Homepage
 class IndexPageTestCase(TestCase):
@@ -310,4 +312,11 @@ class TestResetPassword(TestCase):
 
 # Dump of the database into an excel file
 class TestdataExtractionTestcase(TestCase):
-    pass
+    # def setUp(self):
+
+    #     self.set_filename('membres.xlsx')
+
+    def test_create_file(self):
+        df1 = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
+        df2 = pd.DataFrame({'a': [1, 2], 'b': [3.0, 4.0]})
+        assert_frame_equal(df1, df1)
