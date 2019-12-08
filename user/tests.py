@@ -325,7 +325,8 @@ class TestdataExtractionTestcase(TestCase):
             certificate= True,
             payment= False,
             club=self.club
-        
+        )
+   
     def test_create_file(self):
         """ check that panda's library is well imported"""
         df1 = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
